@@ -31,7 +31,7 @@ class MainWindow : public QMainWindow {
 
 public:
 	MainWindow(QWidget *parent = nullptr);
-	~MainWindow();
+	~MainWindow() noexcept;
 
 private:
 	QPushButton* clear_button;

@@ -3,3 +3,5 @@ build
 fotona_gui_backup
 logs
 catkin_ws.code-workspace
+
+src/temp

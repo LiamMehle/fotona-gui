@@ -42,8 +42,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	FIX(stop_button);
 #undef FIX
 
-	this->main_layout->setRowStretch(0, 1);
-	this->main_layout->setRowStretch(1, 1);
+	for(int i=0; i<this->main_layout->rowCount(); i++)
+		this->main_layout->setRowStretch(i, 1);
 	this->main_layout->setColumnStretch(0, 1);
 	this->main_layout->setColumnStretch(1, 4);
 
