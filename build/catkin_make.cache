@@ -1,2 +1,0 @@
-fotona_gui
--DCATKIN_DEVEL_PREFIX=/home/liam/ros/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/liam/ros/catkin_ws/install -G Unix Makefiles

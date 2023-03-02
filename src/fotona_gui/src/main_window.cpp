@@ -20,8 +20,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	this->start_button->setText("start");
 	this->stop_button->setText("stop it, get some help");
 
-	this->connect(this->clear_button, &QPushButton::clicked, this,
-		[this](){ puts("button has been clicked!"); });
+	// this->connect(this->clear_button, &QPushButton::clicked, this,
+	// 	[this](){ puts("button has been clicked!"); });
 
 // layout setup
 	this->main_layout->addWidget(this->clear_button, 0, 0, 1, 1);
@@ -50,15 +50,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	this->main_layout->setColumnStretch(0, 1);
 	this->main_layout->setColumnStretch(1, 4);
 
+// rviz setup
 	this->grid = this->manager->createDisplay("rviz/Grid", "top-down orthogonal", true);
-	// this->manager->setFixedFrame(fixed_frame);
+	auto const fixed_frame = "map";
+	this->manager->setFixedFrame(fixed_frame);
 	this->manager->initialize();
 	this->manager->startUpdate();
-	auto const view_manager    = this->manager->getViewManager()->getCurrent();
+
 	auto const camera_position = Ogre::Vector3(0, 0, 1);  // Ogre does not support constexpr
-	auto const camera_rotation = Ogre::Quaternion(cos(M_PI/4), sin(M_PI/4), 0, 0);
-	view_manager->getCamera()->move(camera_position);
-	view_manager->getCamera()->rotate(camera_rotation);
+	Ogre::Vector3 const origin(0, 0, 0);  // Ogre does not support constexpr
+	auto view_manager = this->manager->getViewManager()->getCurrent();
+	view_manager->getCamera()->setPosition(camera_position);
+	view_manager->lookAt(origin);
 }
 
 MainWindow::~MainWindow() {

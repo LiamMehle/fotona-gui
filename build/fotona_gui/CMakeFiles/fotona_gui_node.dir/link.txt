@@ -1,1 +1,0 @@
-/usr/bin/c++    -rdynamic CMakeFiles/fotona_gui_node.dir/src/main.cpp.o  -o /home/liam/ros/catkin_ws/devel/lib/fotona_gui/fotona_gui_node 
