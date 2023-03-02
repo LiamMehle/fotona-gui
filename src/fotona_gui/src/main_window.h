@@ -11,6 +11,7 @@
 // #include <QLabel>
 // #include <QVBoxLayout>
 
+// visualization_manager.h uses `register`
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wregister"
 #include "rviz/visualization_manager.h"
