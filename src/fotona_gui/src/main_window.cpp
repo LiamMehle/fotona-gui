@@ -63,5 +63,5 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	view_manager->lookAt(origin);
 }
 
-MainWindow::~MainWindow() {
+MainWindow::~MainWindow() noexcept {
 }
