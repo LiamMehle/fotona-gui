@@ -4,6 +4,12 @@
 #include <ctgmath>
 #include <exception>
 
+namespace RvizDisplayType {
+	auto const Grid   = "rviz/Grid";
+	auto const Marker = "rviz/Marker";
+	auto const MarkerType = "visualization_msgs/Marker";
+}
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	// init
 	this->render_panel   = new rviz::RenderPanel(parent);
@@ -48,7 +54,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	this->main_layout->setColumnStretch(1, 4);
 
 	// rviz setup
-	this->grid = this->manager->createDisplay("rviz/Grid", "top-down orthogonal", true);
+	this->grid = this->manager->createDisplay(RvizDisplayType::Grid, "top-down orthogonal", true);
 	if(grid == nullptr)
 		throw std::runtime_error("Failed to create grid, something went terribly wrong");
 	auto const fixed_frame = "map";
@@ -61,6 +67,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	auto view_manager = this->manager->getViewManager()->getCurrent();
 	view_manager->getCamera()->setPosition(camera_position);
 	view_manager->lookAt(origin);
+
+	// create a marker to show;
+	rviz::Display& moving_marker = *this->manager->createDisplay(RvizDisplayType::Marker, "moving marker", true);
+	moving_marker.setTopic(marker_topic, RvizDisplayType::MarkerType);
+
+	this->connect(this->start_button, &QPushButton::clicked, this,
+			[](){ puts("start button has been clicked!"); });
 }
 
 MainWindow::~MainWindow() noexcept {
