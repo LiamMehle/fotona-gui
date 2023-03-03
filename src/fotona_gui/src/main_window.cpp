@@ -12,6 +12,7 @@ namespace RvizDisplayType {
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	// init
+	// new throws if it fails to allocate, which is (or at least should be) handled by the caller.
 	this->render_panel   = new rviz::RenderPanel(parent);
 	this->manager        = std::unique_ptr<rviz::VisualizationManager>(new rviz::VisualizationManager(this->render_panel));
 	this->clear_button   = new QPushButton();
@@ -61,7 +62,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	this->manager->setFixedFrame(fixed_frame);
 	this->manager->initialize();
 	this->manager->startUpdate();
-	
+
 
 	auto const camera_position = Ogre::Vector3(0, 0, 1);  // Ogre does not support constexpr
 	Ogre::Vector3 const origin(0, 0, 0);
@@ -76,5 +77,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 			[](){ puts("start button has been clicked!"); });
 }
 
-MainWindow::~MainWindow() noexcept {
-}
+// cleanup handled by RAII and Qt
+// I'd mark it const but ISO doesn't like it
+MainWindow::~MainWindow() noexcept {}
