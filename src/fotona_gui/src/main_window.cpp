@@ -61,6 +61,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	this->manager->setFixedFrame(fixed_frame);
 	this->manager->initialize();
 	this->manager->startUpdate();
+	
 
 	auto const camera_position = Ogre::Vector3(0, 0, 1);  // Ogre does not support constexpr
 	Ogre::Vector3 const origin(0, 0, 0);
@@ -71,7 +72,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	// create a marker to show;
 	rviz::Display& moving_marker = *this->manager->createDisplay(RvizDisplayType::Marker, "moving marker", true);
 	moving_marker.setTopic(marker_topic, RvizDisplayType::MarkerType);
-
 	this->connect(this->start_button, &QPushButton::clicked, this,
 			[](){ puts("start button has been clicked!"); });
 }
