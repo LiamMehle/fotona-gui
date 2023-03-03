@@ -26,7 +26,7 @@
 // namespace Ui { class MainWindow; }
 // QT_END_NAMESPACE
 
-auto const marker_topic = "moving_marker";
+auto const marker_topic = "visualization_marker";
 
 class MainWindow : public QMainWindow {
 	Q_OBJECT

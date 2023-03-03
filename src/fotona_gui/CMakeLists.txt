@@ -4,7 +4,7 @@ find_package(catkin REQUIRED COMPONENTS
 roscpp
 rviz
 )
-set(BIN_NAME fotona_gui_node)
+set(BIN_NAME "fotona_gui_node")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O1 -march=skylake")
 include_directories(
   ${catkin_INCLUDE_DIRS}
