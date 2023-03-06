@@ -9,6 +9,9 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O1 -march=skylake")
 include_directories(
   ${catkin_INCLUDE_DIRS}
   /usr/include/OGRE
+  ${Boost_INCLUDE_DIR}
+  ${Eigen_INCLUDE_DIRS}
+  ${rviz_INCLUDE_DIRS}
 )
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(Qt5 REQUIRED COMPONENTS Core)

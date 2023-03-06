@@ -1,14 +1,63 @@
 #include "main_window.h"
 // #include "rviz/view_controller.h"
-#include "rviz/view_manager.h"
 #include <ctgmath>
 #include <exception>
+#include "rviz/view_manager.h"
+#include <QList>
+#include <numeric>
+#include <algorithm>
+
+#include "rviz/default_plugin/point_cloud_transformers.h"
+
+// class DepthMapTransformer : rviz::AxisColorPCTransformer {
+// 	// sets up any properties when loaded
+// 	void createProperties(rviz::Property* parent_property, uint32_t mask, QList<rviz::Property*>& out_props) {}
+// 	// preference/priority. Should return 0 for flat color, but for custom embeded applications, it returns 255.
+// 	uint8_t score(const sensor_msgs::PointCloud2ConstPtr& cloud)    { return ~0; }
+// 	uint8_t supports(const sensor_msgs::PointCloud2ConstPtr& cloud) { return ~0;}
+
+// 	// ignores `mask`, assume little-endian
+// 	bool transform(sensor_msgs::PointCloud2ConstPtr const& cloud_pointer, uint32_t mask, const Ogre::Matrix4& transform, rviz::V_PointCloudPoint& out) {
+// 		auto const& cloud  = *(cloud_pointer.get());
+// 		// todo: check that the layout is:
+// 		// all float32: x, y, z, noise, intensity, gray
+// 		struct point {
+// 			float x, y, z, noise, intensity, gray;
+// 		};
+// 		// hacky stuff for convenience: telling the compiler that this is actually a bunch of structured sigle-precision floats
+// 		auto const  input_points = reinterpret_cast<point const* const __restrict__>(cloud.data.data());
+// 		auto       output_points = reinterpret_cast<point      * const __restrict__>(out.data());
+// 		auto highest_z = input_points[0].z;
+// 		auto  lowest_z = input_points[0].z;
+// 		for (int i=1; i<cloud.data.size(); i++) {
+// 			highest_z = std::max(highest_z, input_points[i].z);
+// 			 lowest_z = std::min( lowest_z, input_points[i].z);
+// 		}
+// 		for (int i=0; i<cloud.data.size(); i++) {
+// 			auto point = input_points[i];
+// 			point.z -= lowest_z;
+// 			point.gray = point.z / (highest_z - lowest_z);
+// 			output_points[i] = point;
+// 		}
+// 		// auto const highest_z = std::reduce(points[0], points[cloud.data.size()], points[0].z, [](point const& a, point const& b) {
+// 		// 	return std::max(a.z, b.z);
+// 		// });
+// 		// auto const lowest_z = std::reduce(points[0], points[cloud.data.size()], points[0].z, [](point const& a, point const& b) {
+// 		// 	return std::min(a.z, b.z);
+// 		// });
+// 		// for (int index=0; index<cloud.width*cloud.height; index++) { // structure is ignored
+// 		// 	depth
+// 		// }
+// 	}
+// };
 
 namespace RvizDisplayType {
 	auto const Grid   = "rviz/Grid";
 	auto const Marker = "rviz/Marker";
 	auto const MarkerType = "visualization_msgs/Marker";
 }
+
+auto const rviz_fixed_frame = "pico_flexx_optical_frame";
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	// init
@@ -58,23 +107,26 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	this->grid = this->manager->createDisplay(RvizDisplayType::Grid, "top-down orthogonal", true);
 	if(grid == nullptr)
 		throw std::runtime_error("Failed to create grid, something went terribly wrong");
-	auto const fixed_frame = "map";
-	this->manager->setFixedFrame(fixed_frame);
-	this->manager->initialize();
-	this->manager->startUpdate();
 
-
-	auto const camera_position = Ogre::Vector3(0, 0, 1);  // Ogre does not support constexpr
+	auto const camera_position = Ogre::Vector3(0, 0, 5);  // Ogre does not support constexpr
 	Ogre::Vector3 const origin(0, 0, 0);
-	auto view_manager = this->manager->getViewManager()->getCurrent();
-	view_manager->getCamera()->setPosition(camera_position);
-	view_manager->lookAt(origin);
+	auto& view_manager = *(this->manager->getViewManager()->getCurrent());
+	view_manager.getCamera()->setPosition(camera_position);
+	view_manager.lookAt(origin);
+	view_manager.getCamera()->setFOVy(Ogre::Radian(90.f));
 
 	// create a marker to show;
-	rviz::Display& moving_marker = *this->manager->createDisplay(RvizDisplayType::Marker, "moving marker", true);
-	moving_marker.setTopic(marker_topic, RvizDisplayType::MarkerType);
+	rviz::Display& pointcloud = *this->manager->createDisplay("rviz/PointCloud2", "pico flexx pointcloud", true);
+	pointcloud.setTopic("/pico_flexx/points", "sensor_msgs/PointCloud2");
+	// pointcloud.setColorScheme()
+	// rviz::Display& moving_marker = *this->manager->createDisplay(RvizDisplayType::Marker, "moving marker", true);
+	// moving_marker.setTopic(marker_topic, RvizDisplayType::MarkerType);
 	this->connect(this->start_button, &QPushButton::clicked, this,
 			[](){ puts("start button has been clicked!"); });
+
+	this->manager->setFixedFrame(rviz_fixed_frame);
+	this->manager->initialize();
+	this->manager->startUpdate();
 }
 
 // cleanup handled by RAII and Qt
