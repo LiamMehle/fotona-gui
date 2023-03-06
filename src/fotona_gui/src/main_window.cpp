@@ -104,6 +104,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	this->main_layout->setColumnStretch(1, 4);
 
 	// rviz setup
+	this->manager->initialize();
+	this->manager->startUpdate();
 	this->grid = this->manager->createDisplay(RvizDisplayType::Grid, "top-down orthogonal", true);
 	if(grid == nullptr)
 		throw std::runtime_error("Failed to create grid, something went terribly wrong");
@@ -111,22 +113,20 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	auto const camera_position = Ogre::Vector3(0, 0, 5);  // Ogre does not support constexpr
 	Ogre::Vector3 const origin(0, 0, 0);
 	auto& view_manager = *(this->manager->getViewManager()->getCurrent());
-	view_manager.getCamera()->setPosition(camera_position);
+	auto& camera       = *view_manager.getCamera();
+	camera.setPosition(camera_position);
+	camera.setFOVy(Ogre::Radian(90.f));
+	// camera.setProjectionType(Ogre::ProjectionType::PT_ORTHOGRAPHIC);
+	// camera.setOrthoWindow(2, 2);
 	view_manager.lookAt(origin);
-	view_manager.getCamera()->setFOVy(Ogre::Radian(90.f));
 
 	// create a marker to show;
 	rviz::Display& pointcloud = *this->manager->createDisplay("rviz/PointCloud2", "pico flexx pointcloud", true);
 	pointcloud.setTopic("/pico_flexx/points", "sensor_msgs/PointCloud2");
-	// pointcloud.setColorScheme()
-	// rviz::Display& moving_marker = *this->manager->createDisplay(RvizDisplayType::Marker, "moving marker", true);
-	// moving_marker.setTopic(marker_topic, RvizDisplayType::MarkerType);
 	this->connect(this->start_button, &QPushButton::clicked, this,
 			[](){ puts("start button has been clicked!"); });
 
 	this->manager->setFixedFrame(rviz_fixed_frame);
-	this->manager->initialize();
-	this->manager->startUpdate();
 }
 
 // cleanup handled by RAII and Qt
