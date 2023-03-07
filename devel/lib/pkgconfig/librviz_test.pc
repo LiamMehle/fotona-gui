@@ -1,8 +1,0 @@
-prefix=/home/liam/ros/catkin_ws/devel
-
-Name: librviz_test
-Description: Description of librviz_test
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

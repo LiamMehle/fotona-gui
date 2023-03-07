@@ -1,4 +1,0 @@
-/home/liam/ros/catkin_ws/src/fotona_gui/src/main_window.cpp: In member function ‘virtual bool DepthMapTransformer::transform(const PointCloud2ConstPtr&, uint32_t, const Ogre::Matrix4&, rviz::V_PointCloudPoint&)’:
-/home/liam/ros/catkin_ws/src/fotona_gui/src/main_window.cpp:51:2: warning: no return statement in function returning non-void [-Wreturn-type]
-   51 |  }
-      |  ^

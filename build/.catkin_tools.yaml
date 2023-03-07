@@ -1,0 +1,6 @@
+devel_space: /home/liam/ros/new_catkin/devel
+install: false
+install_space: /home/liam/ros/new_catkin/install
+profile: default
+source_space: /home/liam/ros/new_catkin/src
+workspace: /home/liam/ros/new_catkin

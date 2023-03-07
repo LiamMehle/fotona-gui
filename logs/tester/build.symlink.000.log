@@ -1,0 +1,4 @@
+Symlinking /home/liam/ros/new_catkin/devel/share/tester/cmake/testerConfig-version.cmake
+Symlinking /home/liam/ros/new_catkin/devel/share/tester/cmake/testerConfig.cmake
+Symlinking /home/liam/ros/new_catkin/devel/lib/python3/dist-packages/tester/__init__.py
+Symlinking /home/liam/ros/new_catkin/devel/lib/pkgconfig/tester.pc
