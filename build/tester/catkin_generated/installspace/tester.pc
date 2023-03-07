@@ -1,8 +1,0 @@
-prefix=/home/liam/ros/new_catkin/install
-
-Name: tester
-Description: Description of tester
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

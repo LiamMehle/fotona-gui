@@ -1,6 +1,0 @@
-tester
-/home/liam/ros/new_catkin/devel/.private/tester/cmake.lock /home/liam/ros/new_catkin/devel/./cmake.lock
-/home/liam/ros/new_catkin/devel/.private/tester/share/tester/cmake/testerConfig-version.cmake /home/liam/ros/new_catkin/devel/share/tester/cmake/testerConfig-version.cmake
-/home/liam/ros/new_catkin/devel/.private/tester/share/tester/cmake/testerConfig.cmake /home/liam/ros/new_catkin/devel/share/tester/cmake/testerConfig.cmake
-/home/liam/ros/new_catkin/devel/.private/tester/lib/python3/dist-packages/tester/__init__.py /home/liam/ros/new_catkin/devel/lib/python3/dist-packages/tester/__init__.py
-/home/liam/ros/new_catkin/devel/.private/tester/lib/pkgconfig/tester.pc /home/liam/ros/new_catkin/devel/lib/pkgconfig/tester.pc

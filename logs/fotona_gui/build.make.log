@@ -1,9 +1,0 @@
-[35m[1mScanning dependencies of target fotona_gui_node_autogen[0m
-[ 20%] [34m[1mAutomatic MOC and UIC for target fotona_gui_node[0m
-[ 20%] Built target fotona_gui_node_autogen
-[35m[1mScanning dependencies of target fotona_gui_node[0m
-[ 40%] [32mBuilding CXX object CMakeFiles/fotona_gui_node.dir/fotona_gui_node_autogen/mocs_compilation.cpp.o[0m
-[ 60%] [32mBuilding CXX object CMakeFiles/fotona_gui_node.dir/src/main.cpp.o[0m
-[ 80%] [32mBuilding CXX object CMakeFiles/fotona_gui_node.dir/src/main_window.cpp.o[0m
-[100%] [32m[1mLinking CXX executable fotona_gui_node[0m
-[100%] Built target fotona_gui_node
