@@ -70,4 +70,5 @@ private:
 	rviz::RenderPanel* __restrict__ render_panel;
 	// `Display` in this context meaning something that is shown or element in the reneder pannel.
 	rviz::Display*     __restrict__ grid;
+	Ogre::Matrix4                   view_matrix;
 };

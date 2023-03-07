@@ -57,6 +57,22 @@ namespace RvizDisplayType {
 	auto const MarkerType = "visualization_msgs/Marker";
 }
 
+Ogre::Matrix4 calculate_projection_matrix(
+	float const left,
+	float const right,
+	float const bottom,
+	float const top,
+	float const near,
+	float const far
+) {
+	return Ogre::Matrix4(
+		2.f/(right-left),   0.f,              0.f,            -(right + left)/(right-left),
+		0.f,                2.f/(top-bottom), 0.f,            -(top+bottom)/(top-bottom),
+		0.f,                0.f,              2.f/(far-near), -(far+near)/(far-near),
+		0.f,                0.f,              0.f,             1.f
+	);
+}
+
 auto const rviz_fixed_frame = "pico_flexx_optical_frame";
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
@@ -105,7 +121,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
 	// rviz setup
 	this->manager->initialize();
-	this->manager->startUpdate();
 	this->grid = this->manager->createDisplay(RvizDisplayType::Grid, "top-down orthogonal", true);
 	if(grid == nullptr)
 		throw std::runtime_error("Failed to create grid, something went terribly wrong");
@@ -115,7 +130,17 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	auto& view_manager = *(this->manager->getViewManager()->getCurrent());
 	auto& camera       = *view_manager.getCamera();
 	camera.setPosition(camera_position);
-	camera.setFOVy(Ogre::Radian(90.f));
+	// camera.setFOVy(Ogre::Radian(90.f));
+
+	// https://en.wikipedia.org/wiki/Orthographic_projection
+	float const left    = -5;
+	float const right   =  5;
+	float const bottom  = -5;
+	float const top     =  5;
+	float const near    =  0.01;
+	float const far     =  1000;
+	this->view_matrix   = calculate_projection_matrix(left,right,bottom,top,near,far);
+	camera.setCustomViewMatrix(true, this->view_matrix);
 	// camera.setProjectionType(Ogre::ProjectionType::PT_ORTHOGRAPHIC);
 	// camera.setOrthoWindow(2, 2);
 	view_manager.lookAt(origin);
@@ -127,6 +152,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 			[](){ puts("start button has been clicked!"); });
 
 	this->manager->setFixedFrame(rviz_fixed_frame);
+
+	this->manager->startUpdate();  // begin asynchronous update of the vizualization
 }
 
 // cleanup handled by RAII and Qt
