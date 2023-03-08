@@ -46,7 +46,7 @@
 	#define __restrict__ // find-replace "__restrict__" with ""
 #endif
 
-auto const marker_topic = "visualization_marker";
+auto const camera_position = Ogre::Vector3(0, 0, 5);  // Ogre does not support constexpr
 
 class MainWindow : public QMainWindow {
 	Q_OBJECT
@@ -55,10 +55,12 @@ public:
 	MainWindow(QWidget *parent = nullptr);
 	~MainWindow() noexcept;
 
+	void set_view_matrix(Ogre::Matrix4);
+
 private:
-	// C++ allows pointer aliasing by default, which sucks
+	Ogre::Matrix4                   view_matrix;
+	// C++ allows pointer aliasing by default
 	// GCC (which we are forced to use) supports an extension that fixes that
-	// "no, compiler, I guarantee these pointers do will never alias anything (as far as you can tell)."
 	QPushButton* __restrict__ clear_button;
 	QPushButton* __restrict__ scan_button;
 	QPushButton* __restrict__ start_button;
@@ -70,5 +72,22 @@ private:
 	rviz::RenderPanel* __restrict__ render_panel;
 	// `Display` in this context meaning something that is shown or element in the reneder pannel.
 	rviz::Display*     __restrict__ grid;
-	Ogre::Matrix4                   view_matrix;
 };
+
+// https://en.wikipedia.org/wiki/Orthographic_projection
+inline
+Ogre::Matrix4 calculate_projection_matrix(
+	float const left,
+	float const right,
+	float const bottom,
+	float const top,
+	float const near,
+	float const far
+) {
+	return Ogre::Matrix4(
+		2.f/(right-left),   0.f,              0.f,            -(right + left)/(right-left),
+		0.f,                2.f/(top-bottom), 0.f,            -(top+bottom)/(top-bottom),
+		0.f,                0.f,              2.f/(far-near), -(far+near)/(far-near),
+		0.f,                0.f,              0.f,             1.f
+	);
+}

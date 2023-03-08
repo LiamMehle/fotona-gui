@@ -2,15 +2,90 @@
 #include <QApplication>
 #include <cstdio>
 #include <exception>
+#include <cstdint>
+#include "sensor_msgs/PointCloud2.h"
+#include <algorithm>
+#include <thread>
+
+std::unique_ptr<MainWindow> w;
+
+// #define NODISPLAY
+#define LOG
+
+void update_view_matrix(const sensor_msgs::PointCloud2& cloud) {
+	#pragma pack(1)
+	struct point_t {
+		float x, y, z, noise;
+		int16_t intensity;
+		int8_t gray;
+	};
+	auto const point_array = reinterpret_cast<point_t const* const>(cloud.data.data());
+	float x_min = 0,
+	      x_max = 0,
+	      y_min = 0,
+	      y_max = 0,
+	      z_min = 0,
+	      z_max = 0;
+	// #pragma omp simd order(concurrent) safelen(512) reduction(min:x_min) reduction(min:y_min) reduction(min:z_min) reduction(max:x_max) reduction(max:y_max) reduction(max:z_max)
+	for (int i=0; i<cloud.data.size()/sizeof(point_t); i++) {
+		// printf("[%d]\n", i);
+		auto const point = point_array[i];
+		x_min = std::min(x_min, point.x);
+		x_max = std::max(x_max, point.x);
+		y_min = std::min(y_min, point.y);
+		y_max = std::max(y_max, point.y);
+		z_min = std::min(z_min, point.z);
+		z_max = std::max(z_max, point.z);
+	}
+	x_min -= 1.f;
+	x_max += 1.f;
+	y_min -= 1.f;
+	y_max += 1.f;
+	z_min -= 1.f;
+	z_max += 1.f;
+	// x is back
+	// y is right
+	// z is up
+	// from top-down perspective
+	// x is down
+	// y is right
+	// z is towards camera
+#ifndef NODISPLAY
+	w->set_view_matrix(calculate_projection_matrix(y_min, y_max, x_min, x_max, camera_position.z - z_max, camera_position.z - z_min));
+	// w->set_view_matrix(calculate_projection_matrix(x_min, x_max, y_min, y_max, camera_position.z - z_max, camera_position.z - z_min));
+#endif
+#ifdef LOG
+	printf("x: [%.4f|%.4f]\t y: [%.4f|%.4f]\t z: [%.4f|%.4f]\n",
+		x_min,
+		x_max,
+		y_min,
+		y_max,
+		z_min,
+		z_max);
+#endif
+}
 
 int main(int argc, char *argv[]) {
+	ros::init(argc, argv, "fotona_gui"); // small overhead
+	ros::NodeHandle n;                   // likely best done on the main thread
 	try {
-		ros::init(argc, argv, "fotona_gui"); // small overhead
-		ros::NodeHandle n;                   // likely best done on the main thread
+#ifndef NODISPLAY
 		QApplication a(argc, argv);          // Qt stuff, must be on the main thread
-		MainWindow w;
-		w.show();
+		w = std::unique_ptr<MainWindow>(new MainWindow());
+#endif
+		auto event_loop = std::thread([&n]() {
+			ros::TransportHints hints;
+			hints.tcpNoDelay(true);
+			auto const subscriber = n.subscribe("/pico_flexx/points", 1, update_view_matrix, hints);
+			auto rate = ros::Rate(33);
+			ros::spin();
+		});
+#ifndef NODISPLAY
+		w->show();
 		return a.exec();
+#else
+		event_loop.join();
+#endif
 	} catch (ros::InvalidNodeNameException) {
 		std::printf("[err]: Please reinstall fotona_gui, it is likely broken beyond repair.");
 	} catch (std::bad_alloc) {

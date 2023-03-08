@@ -7,6 +7,11 @@
 #include <numeric>
 #include <algorithm>
 
+#include <rviz/visualization_manager.h>
+#include <rviz/properties/color_property.h>
+#include <rviz/properties/float_property.h>
+#include <rviz/properties/int_property.h>
+
 #include "rviz/default_plugin/point_cloud_transformers.h"
 
 // class DepthMapTransformer : rviz::AxisColorPCTransformer {
@@ -55,22 +60,6 @@ namespace RvizDisplayType {
 	auto const Grid   = "rviz/Grid";
 	auto const Marker = "rviz/Marker";
 	auto const MarkerType = "visualization_msgs/Marker";
-}
-
-Ogre::Matrix4 calculate_projection_matrix(
-	float const left,
-	float const right,
-	float const bottom,
-	float const top,
-	float const near,
-	float const far
-) {
-	return Ogre::Matrix4(
-		2.f/(right-left),   0.f,              0.f,            -(right + left)/(right-left),
-		0.f,                2.f/(top-bottom), 0.f,            -(top+bottom)/(top-bottom),
-		0.f,                0.f,              2.f/(far-near), -(far+near)/(far-near),
-		0.f,                0.f,              0.f,             1.f
-	);
 }
 
 auto const rviz_fixed_frame = "pico_flexx_optical_frame";
@@ -125,22 +114,20 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	if(grid == nullptr)
 		throw std::runtime_error("Failed to create grid, something went terribly wrong");
 
-	auto const camera_position = Ogre::Vector3(0, 0, 5);  // Ogre does not support constexpr
 	Ogre::Vector3 const origin(0, 0, 0);
 	auto& view_manager = *(this->manager->getViewManager()->getCurrent());
 	auto& camera       = *view_manager.getCamera();
 	camera.setPosition(camera_position);
 	// camera.setFOVy(Ogre::Radian(90.f));
 
-	// https://en.wikipedia.org/wiki/Orthographic_projection
-	float const left    = -5;
-	float const right   =  5;
-	float const bottom  = -5;
-	float const top     =  5;
-	float const near    =  0.01;
-	float const far     =  1000;
-	this->view_matrix   = calculate_projection_matrix(left,right,bottom,top,near,far);
-	camera.setCustomViewMatrix(true, this->view_matrix);
+	// float const left    = -5;
+	// float const right   =  5;
+	// float const bottom  = -5;
+	// float const top     =  5;
+	// float const near    =  0.01;
+	// float const far     =  1000;
+	// this->view_matrix   = calculate_projection_matrix(left,right,bottom,top,near,far);
+	// camera.setCustomViewMatrix(true, this->view_matrix);
 	// camera.setProjectionType(Ogre::ProjectionType::PT_ORTHOGRAPHIC);
 	// camera.setOrthoWindow(2, 2);
 	view_manager.lookAt(origin);
@@ -148,6 +135,22 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	// create a marker to show;
 	rviz::Display& pointcloud = *this->manager->createDisplay("rviz/PointCloud2", "pico flexx pointcloud", true);
 	pointcloud.setTopic("/pico_flexx/points", "sensor_msgs/PointCloud2");
+	
+	// this->connect(this->clear_button, &QPushButton::clicked, this,
+	// 	[&pointcloud](){
+	// 		puts("button has been clicked!");
+	// 		Ogre::SceneNode cloud_scene_node = *pointcloud.getSceneNode();
+	// 		for (Ogre::Node::ChildNodeIterator cloud_children = cloud_scene_node.getChildIterator(); cloud_children.current() != cloud_children.end(); cloud_children.moveNext()) {
+	// 			auto const child = cloud_children.current()->second;
+	// 			child->setScale(.1f, .1f, .1f);
+	// 		}
+	// });
+	// auto const alpha_property = new rviz::FloatProperty(QString("Alpha"), 0.1f, QString("opacity [0,1]"), nullptr, nullptr, nullptr);
+	// pointcloud.addChild(alpha_property);
+	// pointcloud.setProperty("Alpha", 0.1f);
+		/* "Alpha", 1.0,
+                                             "0 is fully transparent, 1.0 is fully opaque.",
+                                             this, SLOT( updateColorAndAlpha() ));*/
 	this->connect(this->start_button, &QPushButton::clicked, this,
 			[](){ puts("start button has been clicked!"); });
 
@@ -157,5 +160,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 }
 
 // cleanup handled by RAII and Qt
-// I'd mark it const but ISO doesn't like it
 MainWindow::~MainWindow() noexcept {}
+
+void MainWindow::set_view_matrix(Ogre::Matrix4 const m) {
+	this->view_matrix = m;
+	auto& view_manager = *(this->manager->getViewManager()->getCurrent());
+	auto& camera       = *view_manager.getCamera();
+	camera.setCustomViewMatrix(true, this->view_matrix);
+	// this->manager->notifyConfigChanged();
+}

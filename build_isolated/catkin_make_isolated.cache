@@ -1,0 +1,2 @@
+fotona_gui:tester
+-G Unix Makefiles -DCATKIN_DEVEL_PREFIX=/home/liam/ros/new_catkin/devel_isolated -DCMAKE_INSTALL_PREFIX=/opt/ros/noetic

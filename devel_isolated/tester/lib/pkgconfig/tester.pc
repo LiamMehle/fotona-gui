@@ -1,0 +1,8 @@
+prefix=/home/liam/ros/new_catkin/devel_isolated/tester
+
+Name: tester
+Description: Description of tester
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

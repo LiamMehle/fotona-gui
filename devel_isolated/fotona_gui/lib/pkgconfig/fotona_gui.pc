@@ -1,0 +1,8 @@
+prefix=/home/liam/ros/new_catkin/devel_isolated/fotona_gui
+
+Name: fotona_gui
+Description: Description of fotona_gui
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 
