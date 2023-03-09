@@ -83,7 +83,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	rviz::Display& pointcloud = *this->manager->createDisplay("rviz/PointCloud2", "pico flexx pointcloud", true);
 	pointcloud.subProp("Alpha")->setValue(0.5f);
 	pointcloud.subProp("Channel")->setValue("Intensity");
-	// pointcloud.subProp("Color Transformer")->setValue(this->depth_map_transformer);
+	pointcloud.subProp("Size (m)")->setValue(0.002);
+	pointcloud.subProp("Color Transformer")->setValue("AxisColor");
+	pointcloud.subProp("Axis")->setValue("Z");
 	// Position Transformer
 	// Color Transformer
 	pointcloud.setTopic("/pico_flexx/points", "sensor_msgs/PointCloud2");
