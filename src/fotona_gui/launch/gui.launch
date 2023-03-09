@@ -4,9 +4,4 @@
   type="fotona_gui_node"
   name="fotona_gui"
 />
-<node
-  pkg="prototype"
-  type="transformer.py"
-  name="transformer"
-/>
 </launch>
