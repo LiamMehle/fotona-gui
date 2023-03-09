@@ -20,15 +20,15 @@ def generate_pointcloud(seq: int, time: Time) -> PointCloud2:
     header.frame_id = 'pico_flexx_optical_frame'
 
     point_fields = [
-        PointField('x',          0, 7, 1),
+        PointField('x',          0, 7, 1),  # float32
         PointField('y',          4, 7, 1),
         PointField('z',          8, 7, 1),
         PointField('noise',     12, 7, 1),
-        PointField('intensity', 16, 7, 1),
-        PointField('gray',      18, 7, 1),
+        PointField('intensity', 16, 4, 1),  # uint16
+        PointField('gray',      18, 2, 1),  # uint8
     ]
     now = t.perf_counter() / 5
-    center = math.sin(now), math.cos(now)
+    center = torch.tensor([math.sin(now), math.cos(now)]) / 2
     x_min, x_max = center[1]-1, center[1]+1
     y_min, y_max = center[0]-1, center[0]+1
 
@@ -38,8 +38,11 @@ def generate_pointcloud(seq: int, time: Time) -> PointCloud2:
     data[:,:,2] = data[:,:,0] * data[:,:,1]
 
     raw_data = np.zeros((y_dim, x_dim, point_step), dtype=np.byte)
-    raw_data[:,:,np.arange(3*4)] = np.frombuffer(data.numpy().tobytes(), dtype=np.byte).reshape((y_dim, x_dim, -1))
-
+    intensity = (data[:,:,2] - data[:,:,2].min()) / (data[:,:,2].max() - data[:,:,2].min()) * (2**16-1)
+    xyz_range       = np.arange(0,  12)
+    intensity_range = np.arange(16, 18)
+    raw_data[:,:,xyz_range]       = np.frombuffer(data.numpy().tobytes()        , dtype=np.byte).reshape((y_dim, x_dim, -1))
+    raw_data[:,:,intensity_range] = np.frombuffer(intensity.short().numpy().tobytes(), dtype=np.byte).reshape((y_dim, x_dim, -1))
     cloud              = PointCloud2()
     # fake the data as observed
     cloud.header       = header

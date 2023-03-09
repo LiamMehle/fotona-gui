@@ -27,6 +27,7 @@ find_package(Qt5 COMPONENTS Widgets REQUIRED)
 add_executable(${BIN_NAME}
 src/main.cpp
 src/main_window.cpp
+# src/depth_map_transformer.cpp
 )
 target_compile_features(${BIN_NAME} PRIVATE
 cxx_std_17

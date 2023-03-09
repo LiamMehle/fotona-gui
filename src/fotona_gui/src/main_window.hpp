@@ -41,6 +41,8 @@
 // #include "rviz/default_plugin/point_cloud_transformer.h"
 // #include "rviz/default_plugin/ortho_proj_transformer.h"
 
+#include "depth_map_transformer.hpp"
+
 // #define NO_CXX_EXTENSIONS
 #ifdef NO_CXX_EXTENSIONS
 	#define __restrict__ // find-replace "__restrict__" with ""
@@ -54,11 +56,11 @@ class MainWindow : public QMainWindow {
 public:
 	MainWindow(QWidget *parent = nullptr);
 	~MainWindow() noexcept;
-
 	void set_view_matrix(Ogre::Matrix4);
 
 private:
-	Ogre::Matrix4                   view_matrix;
+	// CustomDepthMapTransformer       depth_map_transformer;
+	Ogre::Matrix4             view_matrix;
 	// C++ allows pointer aliasing by default
 	// GCC (which we are forced to use) supports an extension that fixes that
 	QPushButton* __restrict__ clear_button;
