@@ -123,8 +123,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
 	// create a marker to show;
 	rviz::Display& pointcloud = *this->manager->createDisplay("rviz/PointCloud2", "pico flexx pointcloud", true);
+	auto const alpha = pointcloud.subProp("Alpha")->setValue(0.1f);
 	pointcloud.setTopic("/pico_flexx/points", "sensor_msgs/PointCloud2");
-
 	this->connect(this->start_button, &QPushButton::clicked, this,
 			[](){ puts("start button has been clicked!"); });
 
