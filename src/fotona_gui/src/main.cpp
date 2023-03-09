@@ -45,13 +45,11 @@ void update_view_matrix(const sensor_msgs::PointCloud2& cloud) {
 	w->set_view_matrix(calculate_projection_matrix(y_min, y_max, x_min, x_max, 0.001, 10000.f));
 #endif
 #ifdef LOG
-	printf("x: [%.4f|%.4f]\t y: [%.4f|%.4f]\t z: [%.4f|%.4f]\n",
+	printf("x: [%.4f|%.4f]\t y: [%.4f|%.4f]\n",
 		x_min,
 		x_max,
 		y_min,
-		y_max,
-		z_min,
-		z_max);
+		y_max);
 #endif
 }
 
