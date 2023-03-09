@@ -82,6 +82,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	this->start_button->setText("start");
 	this->stop_button->setText("stop it, get some help");
 
+	// callbacks are connected to buttons like so:
 	// this->connect(this->clear_button, &QPushButton::clicked, this,
 	// 	[this](){ puts("button has been clicked!"); });
 
@@ -119,38 +120,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	auto& camera       = *view_manager.getCamera();
 	camera.setPosition(camera_position);
 	view_manager.lookAt(origin);
-	// camera.setFOVy(Ogre::Radian(90.f));
-
-	// float const left    = -5;
-	// float const right   =  5;
-	// float const bottom  = -5;
-	// float const top     =  5;
-	// float const near    =  0.01;
-	// float const far     =  1000;
-	// this->view_matrix   = calculate_projection_matrix(left,right,bottom,top,near,far);
-	// camera.setOrthoWindow(2, 2);
-	// camera.setCustomViewMatrix(true, this->view_matrix);
-	// camera.setProjectionType(Ogre::ProjectionType::PT_ORTHOGRAPHIC);
 
 	// create a marker to show;
 	rviz::Display& pointcloud = *this->manager->createDisplay("rviz/PointCloud2", "pico flexx pointcloud", true);
 	pointcloud.setTopic("/pico_flexx/points", "sensor_msgs/PointCloud2");
-	
-	// this->connect(this->clear_button, &QPushButton::clicked, this,
-	// 	[&pointcloud](){
-	// 		puts("button has been clicked!");
-	// 		Ogre::SceneNode cloud_scene_node = *pointcloud.getSceneNode();
-	// 		for (Ogre::Node::ChildNodeIterator cloud_children = cloud_scene_node.getChildIterator(); cloud_children.current() != cloud_children.end(); cloud_children.moveNext()) {
-	// 			auto const child = cloud_children.current()->second;
-	// 			child->setScale(.1f, .1f, .1f);
-	// 		}
-	// });
-	// auto const alpha_property = new rviz::FloatProperty(QString("Alpha"), 0.1f, QString("opacity [0,1]"), nullptr, nullptr, nullptr);
-	// pointcloud.addChild(alpha_property);
-	// pointcloud.setProperty("Alpha", 0.1f);
-		/* "Alpha", 1.0,
-                                             "0 is fully transparent, 1.0 is fully opaque.",
-                                             this, SLOT( updateColorAndAlpha() ));*/
+
 	this->connect(this->start_button, &QPushButton::clicked, this,
 			[](){ puts("start button has been clicked!"); });
 
