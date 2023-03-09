@@ -118,6 +118,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	auto& view_manager = *(this->manager->getViewManager()->getCurrent());
 	auto& camera       = *view_manager.getCamera();
 	camera.setPosition(camera_position);
+	view_manager.lookAt(origin);
 	// camera.setFOVy(Ogre::Radian(90.f));
 
 	// float const left    = -5;
@@ -127,10 +128,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	// float const near    =  0.01;
 	// float const far     =  1000;
 	// this->view_matrix   = calculate_projection_matrix(left,right,bottom,top,near,far);
+	// camera.setOrthoWindow(2, 2);
 	// camera.setCustomViewMatrix(true, this->view_matrix);
 	// camera.setProjectionType(Ogre::ProjectionType::PT_ORTHOGRAPHIC);
-	// camera.setOrthoWindow(2, 2);
-	view_manager.lookAt(origin);
 
 	// create a marker to show;
 	rviz::Display& pointcloud = *this->manager->createDisplay("rviz/PointCloud2", "pico flexx pointcloud", true);
@@ -167,5 +167,5 @@ void MainWindow::set_view_matrix(Ogre::Matrix4 const m) {
 	auto& view_manager = *(this->manager->getViewManager()->getCurrent());
 	auto& camera       = *view_manager.getCamera();
 	camera.setCustomViewMatrix(true, this->view_matrix);
-	// this->manager->notifyConfigChanged();
+	this->manager->notifyConfigChanged();
 }

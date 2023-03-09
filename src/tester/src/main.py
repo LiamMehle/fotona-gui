@@ -8,10 +8,10 @@ import time as t
 import torch
 
 def generate_pointcloud(seq: int, time: Time) -> PointCloud2:
-    # x_dim       = 171
-    # y_dim       = 224
-    x_dim       = 500
-    y_dim       = 500
+    x_dim       = 171
+    y_dim       = 224
+    # x_dim       = 500
+    # y_dim       = 500
     point_step  = (4*(32) + 16 + 8 )//8
     
     header          = Header()
@@ -27,7 +27,7 @@ def generate_pointcloud(seq: int, time: Time) -> PointCloud2:
         PointField('intensity', 16, 7, 1),
         PointField('gray',      18, 7, 1),
     ]
-    now = t.perf_counter() / 50
+    now = t.perf_counter() / 5
     center = math.sin(now), math.cos(now)
     x_min, x_max = center[1]-1, center[1]+1
     y_min, y_max = center[0]-1, center[0]+1

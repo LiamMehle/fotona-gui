@@ -23,26 +23,17 @@ void update_view_matrix(const sensor_msgs::PointCloud2& cloud) {
 	float x_min = 0,
 	      x_max = 0,
 	      y_min = 0,
-	      y_max = 0,
-	      z_min = 0,
-	      z_max = 0;
+	      y_max = 0;
 	// #pragma omp simd order(concurrent) safelen(512) reduction(min:x_min) reduction(min:y_min) reduction(min:z_min) reduction(max:x_max) reduction(max:y_max) reduction(max:z_max)
 	for (int i=0; i<cloud.data.size()/sizeof(point_t); i++) {
-		// printf("[%d]\n", i);
 		auto const point = point_array[i];
-		x_min = std::min(x_min, point.x);
-		x_max = std::max(x_max, point.x);
-		y_min = std::min(y_min, point.y);
-		y_max = std::max(y_max, point.y);
-		z_min = std::min(z_min, point.z);
-		z_max = std::max(z_max, point.z);
+		x_max = std::max(std::abs(point.y),std::max(std::abs(point.x), x_max));
 	}
-	x_min -= 1.f;
-	x_max += 1.f;
-	y_min -= 1.f;
-	y_max += 1.f;
-	z_min -= 1.f;
-	z_max += 1.f;
+	x_max =  x_max;
+	y_max =  x_max;
+
+	x_min = -x_max;
+	y_min = -y_max;
 	// x is back
 	// y is right
 	// z is up
@@ -51,8 +42,7 @@ void update_view_matrix(const sensor_msgs::PointCloud2& cloud) {
 	// y is right
 	// z is towards camera
 #ifndef NODISPLAY
-	w->set_view_matrix(calculate_projection_matrix(y_min, y_max, x_min, x_max, camera_position.z - z_max, camera_position.z - z_min));
-	// w->set_view_matrix(calculate_projection_matrix(x_min, x_max, y_min, y_max, camera_position.z - z_max, camera_position.z - z_min));
+	w->set_view_matrix(calculate_projection_matrix(y_min, y_max, x_min, x_max, 0.001, 10000.f));
 #endif
 #ifdef LOG
 	printf("x: [%.4f|%.4f]\t y: [%.4f|%.4f]\t z: [%.4f|%.4f]\n",
