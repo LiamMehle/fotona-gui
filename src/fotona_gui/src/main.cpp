@@ -24,7 +24,7 @@ void update_view_matrix(const sensor_msgs::PointCloud2& cloud) {
 	      x_max = 0,
 	      y_min = 0,
 	      y_max = 0;
-	// #pragma omp simd order(concurrent) safelen(512) reduction(min:x_min) reduction(min:y_min) reduction(min:z_min) reduction(max:x_max) reduction(max:y_max) reduction(max:z_max)
+	#pragma omp order(concurrent) simd safelen(512) reduction(max:x_max)
 	for (int i=0; i<cloud.data.size()/sizeof(point_t); i++) {
 		auto const point = point_array[i];
 		x_max = std::max(std::abs(point.y),std::max(std::abs(point.x), x_max));
