@@ -1,7 +1,0 @@
-<launch>
-<node
-  pkg="fotona_gui"
-  type="name_of_the_executable"
-  name="fotona_gui_node"
-/>
-</launch>
