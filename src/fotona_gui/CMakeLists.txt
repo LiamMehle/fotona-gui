@@ -4,6 +4,7 @@ find_package(catkin REQUIRED COMPONENTS
 roscpp
 rviz
 )
+catkin_package()
 set(BIN_NAME "fotona_gui_node")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O1 -march=skylake")
 include_directories(
@@ -12,9 +13,9 @@ include_directories(
   ${Boost_INCLUDE_DIR}
   ${Eigen_INCLUDE_DIRS}
   ${rviz_INCLUDE_DIRS}
-)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-find_package(Qt5 REQUIRED COMPONENTS Core)
+  )
+  set(CMAKE_CXX_STANDARD_REQUIRED ON)
+  find_package(Qt5 REQUIRED COMPONENTS Core)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -58,5 +59,3 @@ find_package(OpenMP)
 if(OpenMP_CXX_FOUND)
     target_link_libraries(${BIN_NAME} PUBLIC OpenMP::OpenMP_CXX)
 endif()
-
-catkin_package()

@@ -57,8 +57,12 @@ public:
 	MainWindow(QWidget *parent = nullptr);
 	~MainWindow() noexcept;
 	void set_view_matrix(Ogre::Matrix4);
+	void set_pointcloud_alpha(float alpha);
+	void set_pointcloud_size(float size);
+	void set_pointcloud_color_transformer(char const* const transformer);
 
 private:
+	rviz::Display*            pointcloud;
 	// CustomDepthMapTransformer       depth_map_transformer;
 	Ogre::Matrix4             view_matrix;
 	// C++ allows pointer aliasing by default

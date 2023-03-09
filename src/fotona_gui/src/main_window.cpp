@@ -80,15 +80,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	view_manager.lookAt(origin);
 
 	// create a marker to show;
-	rviz::Display& pointcloud = *this->manager->createDisplay("rviz/PointCloud2", "pico flexx pointcloud", true);
-	pointcloud.subProp("Alpha")->setValue(0.5f);
-	pointcloud.subProp("Channel")->setValue("Intensity");
-	pointcloud.subProp("Size (m)")->setValue(0.003);
-	pointcloud.subProp("Color Transformer")->setValue("AxisColor");
-	pointcloud.subProp("Axis")->setValue("Z");
+	this->pointcloud = this->manager->createDisplay("rviz/PointCloud2", "pico flexx pointcloud", true);
+	this->pointcloud->subProp("Alpha")->setValue(0.5f);
+	this->pointcloud->subProp("Channel")->setValue("Intensity");
+	this->pointcloud->subProp("Size (m)")->setValue(0.003);
+	this->pointcloud->subProp("Color Transformer")->setValue("AxisColor");
+	this->pointcloud->subProp("Axis")->setValue("Z");
 	// Position Transformer
 	// Color Transformer
-	pointcloud.setTopic("/pico_flexx/points", "sensor_msgs/PointCloud2");
+	pointcloud->setTopic("/pico_flexx/points", "sensor_msgs/PointCloud2");
 	this->connect(this->start_button, &QPushButton::clicked, this,
 			[](){ puts("start button has been clicked!"); });
 
@@ -106,4 +106,15 @@ void MainWindow::set_view_matrix(Ogre::Matrix4 const m) {
 	auto& camera       = *view_manager.getCamera();
 	camera.setCustomViewMatrix(true, this->view_matrix);
 	this->manager->notifyConfigChanged();
+}
+
+
+void MainWindow::set_pointcloud_alpha(float alpha) {
+	this->pointcloud->subProp("Alpha")->setValue(alpha);
+}
+void MainWindow::set_pointcloud_size(float size) {
+	this->pointcloud->subProp("Size (m)")->setValue(size);
+}
+void MainWindow::set_pointcloud_color_transformer(char const* const transformer) {
+	this->pointcloud->subProp("Color Transformer")->setValue(transformer);
 }
