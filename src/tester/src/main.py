@@ -63,11 +63,12 @@ def talker():
     rate = rospy.Rate(30) # 10hz
     seq = 0
     while not rospy.is_shutdown():
-        point_cloud = generate_pointcloud(seq, rospy.get_rostime())
-        rospy.loginfo('sending pointcloud')
-        pub.publish(point_cloud)
-        seq +=1
-        rate.sleep()
+        if pub.get_num_connections() != 0:
+            point_cloud = generate_pointcloud(seq, rospy.get_rostime())
+            rospy.loginfo('sending pointcloud')
+            pub.publish(point_cloud)
+            seq +=1
+            rate.sleep()
 
 if __name__ == '__main__':
     try:
