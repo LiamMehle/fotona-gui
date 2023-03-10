@@ -7,6 +7,8 @@
 #include <algorithm>
 #include <thread>
 
+#include "parameter_server.hpp"
+
 std::unique_ptr<MainWindow> w;
 
 // #define NODISPLAY
@@ -20,20 +22,19 @@ void update_view_matrix(const sensor_msgs::PointCloud2& cloud) {
 		int8_t gray;
 	};
 	auto const point_array = reinterpret_cast<point_t const* const>(cloud.data.data());
-	float x_min = 0,
-	      x_max = 0,
-	      y_min = 0,
-	      y_max = 0;
+	float x_max = 0;
 	#pragma omp order(concurrent) simd safelen(512) reduction(max:x_max)
 	for (int i=0; i<cloud.data.size()/sizeof(point_t); i++) {
 		auto const point = point_array[i];
 		x_max = std::max(std::abs(point.y),std::max(std::abs(point.x), x_max));
 	}
-	x_max =  x_max;
-	y_max =  x_max;
+	auto const y_max =  x_max;
 
-	x_min = -x_max;
-	y_min = -y_max;
+	auto const x_min = -x_max;
+	auto const y_min = -y_max;
+
+	auto const z_min = 0.001f;
+	auto const z_max = 1000.f;
 	// x is back
 	// y is right
 	// z is up
@@ -42,7 +43,7 @@ void update_view_matrix(const sensor_msgs::PointCloud2& cloud) {
 	// y is right
 	// z is towards camera
 #ifndef NODISPLAY
-	w->set_view_matrix(calculate_projection_matrix(y_min, y_max, x_min, x_max, 0.001, 10000.f));
+	w->set_view_matrix(calculate_projection_matrix(y_min, y_max, x_min, x_max, z_min, z_max));
 #endif
 #ifdef LOG
 	printf("x: [%.4f|%.4f]\t y: [%.4f|%.4f]\n",
@@ -64,17 +65,15 @@ int main(int argc, char *argv[]) {
 		w = std::unique_ptr<MainWindow>(new MainWindow());
 #endif
 		auto event_loop = std::thread([&n]() {
-			ros::TransportHints hints;
-			hints.tcpNoDelay(true);
-			auto const subscriber = n.subscribe("/pico_flexx/points", 1, update_view_matrix, hints);
+			auto const subscriber = n.subscribe("/pico_flexx/points", 128, update_view_matrix);
 			auto rate = ros::Rate(33);
-			std::vector<float> alpha, size;
 			while (ros::ok()) {
 				ros::spinOnce();
-				n.getParam("Alpha", alpha);
-				n.getParam("Size_mm", size);
-				w->set_pointcloud_alpha(alpha[0]);
-				w->set_pointcloud_size(size[0] * 1000);
+				auto const alpha = get_parameter<float>(n, "Alpha");
+				auto const size  = get_parameter<float>(n, "Size_mm");
+
+				w->set_pointcloud_alpha(alpha);
+				w->set_pointcloud_size(size * 1000);
 			}
 		});
 #ifndef NODISPLAY

@@ -63,7 +63,7 @@ def talker():
     rospy.init_node('talker', anonymous=False)
     pub = rospy.Publisher('/pico_flexx/points', PointCloud2, queue_size=1024)
     # sub = rospy.Subscriber('/pico_flexx/points', PointCloud2, test_callback, queue_size=1024)
-    rate = rospy.Rate(30) # 10hz
+    rate = rospy.Rate(30)
     seq = 0
     while not rospy.is_shutdown():
         if pub.get_num_connections() != 0:

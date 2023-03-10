@@ -60,7 +60,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	FIX(scan_button);
 	FIX(start_button);
 	FIX(stop_button);
-	FIX(render_pannel);
+	FIX(render_panel);
 	FIX(central_widget);
 #undef FIX
 
@@ -109,7 +109,6 @@ void MainWindow::set_view_matrix(Ogre::Matrix4 const m) {
 	camera.setCustomViewMatrix(true, this->view_matrix);
 	this->manager->notifyConfigChanged();
 }
-
 
 void MainWindow::set_pointcloud_alpha(float alpha) {
 	this->pointcloud->subProp("Alpha")->setValue(alpha);
