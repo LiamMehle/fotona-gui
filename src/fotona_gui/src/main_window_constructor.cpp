@@ -65,12 +65,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
 	Ogre::Vector3 const origin(0, 0, 0);
 	auto& view_manager = *(this->manager->getViewManager()->getCurrent());
-	auto& camera       = *view_manager.getCamera();
-	camera.setPosition(camera_position);
+	this->camera       = view_manager.getCamera();
+	camera->setPosition(camera_position);
 	view_manager.lookAt(origin);
 	// setting up a valid view transform such that the camera won't complain
-	this->view_matrix = calculate_projection_matrix(-1, 1, -1, 1, 0.001, 1000);
-	camera.setCustomViewMatrix(true, this->view_matrix);  // this will be updated in `set_view_matrix`
+	auto view_matrix = calculate_projection_matrix(-1, 1, -1, 1, 0.001, 1000);
+	camera->setCustomViewMatrix(true, view_matrix);  // this will be updated in `set_view_matrix`
 
 	// create a marker to show;
 	this->pointcloud = this->manager->createDisplay("rviz/PointCloud2", "pico flexx pointcloud", true);

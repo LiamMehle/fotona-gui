@@ -4,12 +4,8 @@
 // cleanup handled by RAII and Qt
 MainWindow::~MainWindow() noexcept {}
 
-void MainWindow::set_view_matrix(Ogre::Matrix4 const m) {
-	this->view_matrix = m;
-	auto& view_manager = *(this->manager->getViewManager()->getCurrent());
-	auto& camera       = *view_manager.getCamera();
-	camera.setCustomViewMatrix(true, this->view_matrix);
-	this->manager->notifyConfigChanged();
+void MainWindow::set_view_matrix(Ogre::Matrix4 m) {
+	camera->setCustomViewMatrix(true, m);
 }
 
 void MainWindow::set_pointcloud_alpha(float alpha) {

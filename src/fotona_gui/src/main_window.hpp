@@ -19,6 +19,7 @@
 #include "rviz/display.h"
 
 #include "rviz/viewport_mouse_event.h"
+#include "rviz/view_manager.h"
 
 // #define NO_CXX_EXTENSIONS
 #ifdef NO_CXX_EXTENSIONS
@@ -41,7 +42,7 @@ public:
 private:
 	rviz::Display*            pointcloud;
 	// CustomDepthMapTransformer       depth_map_transformer;
-	Ogre::Matrix4             view_matrix;
+	Ogre::Camera*             camera;
 	// C++ allows pointer aliasing by default
 	// GCC (which we are forced to use) supports an extension that fixes that
 	QPushButton* __restrict__ clear_button;
