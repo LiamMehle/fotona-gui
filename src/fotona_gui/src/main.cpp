@@ -51,11 +51,11 @@ void update_view_matrix(const sensor_msgs::PointCloud2& cloud) {
 	w->set_view_matrix(calculate_projection_matrix(y_min, y_max, x_min, x_max, z_min, z_max));
 #endif
 #ifdef LOG
-	// printf("x: [%.4f|%.4f]\t y: [%.4f|%.4f]\n",
-	// 	x_min,
-	// 	x_max,
-	// 	y_min,
-	// 	y_max);
+	printf("x: [%.4f|%.4f]\t y: [%.4f|%.4f]\n",
+		x_min,
+		x_max,
+		y_min,
+		y_max);
 #endif
 }
 
@@ -79,8 +79,8 @@ int main(int argc, char *argv[]) {
 				auto const alpha = get_parameter<float>(n, alpha_parameter_key);
 				auto const size  = get_parameter<float>(n, size_parameter_key);
 
-				map(alpha, [&](auto const alpha){ printf("%s:\t%f\n", alpha_parameter_key.c_str(), (double)alpha); w->set_pointcloud_alpha(alpha);      });
-				map(size,  [&](auto const size ){ printf("%s:\t%f\n", size_parameter_key.c_str(),  (double)size);  w->set_pointcloud_size(size); } );
+				map(alpha, [&](auto const alpha){ w->set_pointcloud_alpha(alpha); });
+				map(size,  [&](auto const size ){ w->set_pointcloud_size(size);   });
 
 				rate.sleep();
 			}
