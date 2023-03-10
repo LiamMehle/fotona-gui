@@ -23,16 +23,23 @@ void update_view_matrix(const sensor_msgs::PointCloud2& cloud) {
 		int8_t gray;
 	};
 	auto const point_array = reinterpret_cast<point_t const* const>(cloud.data.data());
-	float x_max = 0;
-	#pragma omp order(concurrent) simd safelen(512) reduction(max:x_max)
-	for (int i=0; i<cloud.data.size()/sizeof(point_t); i++) {
+	auto const point_count = cloud.data.size()/sizeof(point_t);
+	std::vector<float> distances;
+	distances.reserve(point_count);
+	#pragma omp order(concurrent) simd safelen(512)
+	for (int i=0; i<point_count; i++) {
 		auto const point     = point_array[i];
 		auto const point_x   = std::abs(point.x);
 		auto const point_y   = std::abs(point.y);
 		auto const max_coord = std::max(point_x, point_y);
-
-		x_max = std::max(x_max, max_coord);  // update max so far
+		distances[i] = max_coord;
 	}
+	// keep at least 80% of the points in view
+	size_t const ignored_point_count = point_count * 2 / 10;
+	auto const ignored_point_iterator = distances.begin()+ignored_point_count;
+	std::nth_element(distances.begin(), ignored_point_iterator, distances.end(), [](float const a, float const b) {return a > b;});
+	auto const x_max_measured = *(ignored_point_iterator + 1);
+	auto const x_max = x_max_measured * 4;
 	auto const y_max =  x_max;
 
 	auto const x_min = -x_max;
