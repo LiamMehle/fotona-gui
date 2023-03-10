@@ -60,6 +60,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	FIX(scan_button);
 	FIX(start_button);
 	FIX(stop_button);
+	FIX(render_pannel);
+	FIX(central_widget);
 #undef FIX
 
 	for(int i=0; i<this->main_layout->rowCount(); i++)

@@ -8,10 +8,10 @@ import time as t
 import torch
 
 def generate_pointcloud(seq: int, time: Time) -> PointCloud2:
-    # x_dim       = 171
-    # y_dim       = 224
-    x_dim       = 500
-    y_dim       = 500
+    x_dim       = 171
+    y_dim       = 224
+    # x_dim       = 500
+    # y_dim       = 500
     point_step  = (4*(32) + 16 + 8 )//8
     
     header          = Header()
