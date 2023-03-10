@@ -20,12 +20,13 @@ void update_view_matrix(const sensor_msgs::PointCloud2& cloud) {
 		auto const max_coord = std::max(point_x, point_y);
 		distances[i] = max_coord;
 	}
-	// keep at least 80% of the points in view
-	size_t const ignored_point_count = point_count * 2 / 10;
+	// find closest x% of points, then extrapolate out to 100% (if equidistant)
+	// outliers are likely disproportionally far
+	size_t const ignored_point_count = point_count * 5 / 10;
 	auto const ignored_point_iterator = distances.begin()+ignored_point_count;
 	std::nth_element(distances.begin(), ignored_point_iterator, distances.end(), [](float const a, float const b) {return a > b;});
 	auto const x_max_measured = *(ignored_point_iterator + 1);
-	auto const x_max = x_max_measured * 4;
+	auto const x_max = x_max_measured * 100;
 	auto const y_max =  x_max;
 
 	auto const x_min = -x_max;
