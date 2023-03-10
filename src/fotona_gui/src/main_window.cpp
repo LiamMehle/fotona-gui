@@ -80,11 +80,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	auto& camera       = *view_manager.getCamera();
 	camera.setPosition(camera_position);
 	view_manager.lookAt(origin);
+	// setting up a valid view transform such that the camera won't complain
+	this->view_matrix = calculate_projection_matrix(-1, 1, -1, 1, 0.001, 1000);
+	camera.setCustomViewMatrix(true, this->view_matrix);  // this will be updated in `set_view_matrix`
 
 	// create a marker to show;
 	this->pointcloud = this->manager->createDisplay("rviz/PointCloud2", "pico flexx pointcloud", true);
+	// this->pointcloud->subProp("Channel")->setValue("Intensity");
 	this->pointcloud->subProp("Alpha")->setValue(0.5f);
-	this->pointcloud->subProp("Channel")->setValue("Intensity");
 	this->pointcloud->subProp("Size (m)")->setValue(0.003);
 	this->pointcloud->subProp("Color Transformer")->setValue("AxisColor");
 	this->pointcloud->subProp("Axis")->setValue("Z");
@@ -104,18 +107,25 @@ MainWindow::~MainWindow() noexcept {}
 
 void MainWindow::set_view_matrix(Ogre::Matrix4 const m) {
 	this->view_matrix = m;
-	auto& view_manager = *(this->manager->getViewManager()->getCurrent());
-	auto& camera       = *view_manager.getCamera();
-	camera.setCustomViewMatrix(true, this->view_matrix);
-	this->manager->notifyConfigChanged();
+	// auto& view_manager = *(this->manager->getViewManager()->getCurrent());
+	// auto& camera       = *view_manager.getCamera();
+	// camera.setCustomViewMatrix(true, this->view_matrix);
+	// this->manager->notifyConfigChanged();
 }
 
 void MainWindow::set_pointcloud_alpha(float alpha) {
+	if (alpha == this->pointcloud_alpha)  // caching because updating is expensive
+		return;
+	this->pointcloud_alpha = alpha;
 	this->pointcloud->subProp("Alpha")->setValue(alpha);
 }
 void MainWindow::set_pointcloud_size(float size) {
+	if (pointcloud_size == this->pointcloud_size)  // caching because updating is expensive
+		return;
+	this->pointcloud_size = size;
 	this->pointcloud->subProp("Size (m)")->setValue(size);
 }
 void MainWindow::set_pointcloud_color_transformer(char const* const transformer) {
-	this->pointcloud->subProp("Color Transformer")->setValue(transformer);
+	throw std::runtime_error("unimplemented");
+	// this->pointcloud->subProp("Color Transformer")->setValue(transformer);
 }

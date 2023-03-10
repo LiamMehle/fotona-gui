@@ -78,6 +78,11 @@ private:
 	rviz::RenderPanel* __restrict__ render_panel;
 	// `Display` in this context meaning something that is shown or element in the reneder pannel.
 	rviz::Display*     __restrict__ grid;
+
+	// cached values becaues updating them regardless is just too expensive
+	float pointcloud_alpha;
+	float pointcloud_size;
+	// camera projection is
 };
 
 // https://en.wikipedia.org/wiki/Orthographic_projection
