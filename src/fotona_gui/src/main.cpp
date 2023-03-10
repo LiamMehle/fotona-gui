@@ -1,12 +1,13 @@
-#include "main_window.hpp"
-#include <QApplication>
 #include <cstdio>
 #include <exception>
 #include <cstdint>
-#include "sensor_msgs/PointCloud2.h"
 #include <algorithm>
 #include <thread>
 
+#include <QApplication>
+#include "sensor_msgs/PointCloud2.h"
+
+#include "main_window.hpp"
 #include "parameter_server.hpp"
 #include "optional_ext.hpp"
 

@@ -1,16 +1,7 @@
-#include "main_window.hpp"
-// #include "rviz/view_controller.h"
-#include <ctgmath>
 #include <exception>
-#include "rviz/view_manager.h"
 #include <QList>
-#include <numeric>
-#include <algorithm>
-
-#include <rviz/visualization_manager.h>
-#include <rviz/properties/color_property.h>
-#include <rviz/properties/float_property.h>
-#include <rviz/properties/int_property.h>
+#include "rviz/view_manager.h"
+#include "main_window.hpp"
 
 
 

@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <QGridLayout>
 
+#include "ros/ros.h"
 // Visualization_manager.h uses `register`,
 // which GCC flags a warning for as not existing in C++17,
 // which catkin converts into an error via GCC's -Werror flag.
@@ -17,31 +18,7 @@
 #include "rviz/render_panel.h"
 #include "rviz/display.h"
 
-#include "ros/ros.h"
-#include "rviz/visualization_manager.h"
 #include "rviz/viewport_mouse_event.h"
-#include "rviz/display_context.h"
-#include "rviz/properties/property.h"
-#include "rviz/properties/property_tree_widget.h"
-#include "rviz/properties/property_tree_model.h"
-#include "rviz/properties/property_tree_delegate.h"
-#include "rviz/display_factory.h"
-#include "rviz/load_resource.h"
-#include "rviz/frame_manager.h"
-#include "rviz/validate_floats.h"
-#include "rviz/selection/selection_manager.h"
-#include "rviz/panel_dock_widget.h"
-#include "rviz/render_panel.h"
-#include "rviz/tool.h"
-#include "rviz/tool_manager.h"
-#include "rviz/viewport_mouse_event.h"
-#include "rviz/tool_manager.h"
-#include "rviz/panel.h"
-#include "rviz/ogre_helpers/orthographic.h"
-// #include "rviz/default_plugin/point_cloud_transformer.h"
-// #include "rviz/default_plugin/ortho_proj_transformer.h"
-
-#include "depth_map_transformer.hpp"
 
 // #define NO_CXX_EXTENSIONS
 #ifdef NO_CXX_EXTENSIONS
