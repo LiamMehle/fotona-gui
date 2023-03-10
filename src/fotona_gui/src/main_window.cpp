@@ -88,7 +88,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	this->pointcloud = this->manager->createDisplay("rviz/PointCloud2", "pico flexx pointcloud", true);
 	// this->pointcloud->subProp("Channel")->setValue("Intensity");
 	this->pointcloud->subProp("Alpha")->setValue(0.5f);
-	this->pointcloud->subProp("Size (m)")->setValue(0.003);
+	this->pointcloud->subProp("Size (m)")->setValue(0.003f);
 	this->pointcloud->subProp("Color Transformer")->setValue("AxisColor");
 	this->pointcloud->subProp("Axis")->setValue("Z");
 	// Position Transformer
@@ -118,12 +118,14 @@ void MainWindow::set_pointcloud_alpha(float alpha) {
 		return;
 	this->pointcloud_alpha = alpha;
 	this->pointcloud->subProp("Alpha")->setValue(alpha);
+	this->manager->notifyConfigChanged();
 }
 void MainWindow::set_pointcloud_size(float size) {
-	if (pointcloud_size == this->pointcloud_size)  // caching because updating is expensive
+	if (size == this->pointcloud_size)  // caching because updating is expensive
 		return;
 	this->pointcloud_size = size;
 	this->pointcloud->subProp("Size (m)")->setValue(size);
+	this->manager->notifyConfigChanged();
 }
 void MainWindow::set_pointcloud_color_transformer(char const* const transformer) {
 	throw std::runtime_error("unimplemented");
