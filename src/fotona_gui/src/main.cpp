@@ -26,7 +26,6 @@ void update_view_matrix(const sensor_msgs::PointCloud2& cloud) {
 	auto const point_count = cloud.data.size()/sizeof(point_t);
 	std::vector<float> distances;
 	distances.reserve(point_count);
-	#pragma omp order(concurrent) simd safelen(512)
 	for (int i=0; i<point_count; i++) {
 		auto const point     = point_array[i];
 		auto const point_x   = std::abs(point.x);
