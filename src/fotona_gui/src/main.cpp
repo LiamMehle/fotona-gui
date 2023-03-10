@@ -8,6 +8,7 @@
 #include <thread>
 
 #include "parameter_server.hpp"
+#include "optional_ext.hpp"
 
 std::unique_ptr<MainWindow> w;
 
@@ -25,8 +26,12 @@ void update_view_matrix(const sensor_msgs::PointCloud2& cloud) {
 	float x_max = 0;
 	#pragma omp order(concurrent) simd safelen(512) reduction(max:x_max)
 	for (int i=0; i<cloud.data.size()/sizeof(point_t); i++) {
-		auto const point = point_array[i];
-		x_max = std::max(std::abs(point.y),std::max(std::abs(point.x), x_max));
+		auto const point     = point_array[i];
+		auto const point_x   = std::abs(point.x);
+		auto const point_y   = std::abs(point.y);
+		auto const max_coord = std::max(point_x, point_y);
+
+		x_max = std::max(x_max, max_coord);  // update max so far
 	}
 	auto const y_max =  x_max;
 
@@ -65,15 +70,18 @@ int main(int argc, char *argv[]) {
 		auto event_loop = std::thread([&n]() {
 			auto const subscriber = n.subscribe("/pico_flexx/points", 128, update_view_matrix);
 			auto rate = ros::Rate(1);
-			n.setParam("Alpha", "0.5");
-			n.setParam("Size_mm", "5");
+			auto alpha_parameter_key = std::string{"Alpha"};
+			auto size_parameter_key = std::string{"Size_mm"};
+			n.param(alpha_parameter_key,   0.5f);
+			n.param(size_parameter_key,    5.f);
 			while (ros::ok()) {
 				ros::spinOnce();
-				auto const alpha = get_parameter<float>(n, "Alpha");
-				auto const size  = get_parameter<float>(n, "Size_mm");
+				auto const alpha = get_parameter<float>(n, alpha_parameter_key);
+				auto const size  = get_parameter<float>(n, size_parameter_key);
 
-				w->set_pointcloud_alpha(alpha);
-				w->set_pointcloud_size(size * 1000);
+				map(alpha, [](auto const alpha){ w->set_pointcloud_alpha(alpha);      });
+				map(size,  [](auto const size ){ w->set_pointcloud_size(size * 1000); });
+
 				rate.sleep();
 			}
 		});

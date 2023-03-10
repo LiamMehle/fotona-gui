@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "ros/ros.h"
+#include <optional>
 
 template<typename T>
 constexpr inline
@@ -13,8 +14,8 @@ auto parse(std::string const& string) noexcept -> T {
 
 template<typename T>
 constexpr inline
-auto get_parameter(ros::NodeHandle const& n, char const* const parameter_name) noexcept -> T {
-	std::string parameter_as_string;
-	n.getParamCached(parameter_name, parameter_as_string);
-	return parse<T>(parameter_as_string);
+auto get_parameter(ros::NodeHandle const& n, std::string& parameter_name) noexcept -> std::optional<T> {
+	T parameter;
+	bool const was_set = n.getParam(parameter_name, parameter);
+	return was_set ? std::optional{parameter} : std::nullopt;
 }
