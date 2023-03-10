@@ -28,6 +28,8 @@ find_package(Qt5 COMPONENTS Widgets REQUIRED)
 add_executable(${BIN_NAME}
 src/main.cpp
 src/main_window.cpp
+src/main_window_constructor.cpp
+src/rviz_active_management.cpp
 # src/depth_map_transformer.cpp
 )
 target_compile_features(${BIN_NAME} PRIVATE
