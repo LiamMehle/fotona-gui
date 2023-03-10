@@ -57,8 +57,6 @@ void update_view_matrix(const sensor_msgs::PointCloud2& cloud) {
 int main(int argc, char *argv[]) {
 	ros::init(argc, argv, "fotona_gui"); // small overhead
 	ros::NodeHandle n;                   // likely best done on the main thread
-	n.setParam("Alpha", std::vector<float>{0.5});
-	n.setParam("Size_mm", std::vector<float>{5});
 	try {
 #ifndef NODISPLAY
 		QApplication a(argc, argv);          // Qt stuff, must be on the main thread
@@ -66,7 +64,9 @@ int main(int argc, char *argv[]) {
 #endif
 		auto event_loop = std::thread([&n]() {
 			auto const subscriber = n.subscribe("/pico_flexx/points", 128, update_view_matrix);
-			auto rate = ros::Rate(33);
+			auto rate = ros::Rate(1);
+			n.setParam("Alpha", "0.5");
+			n.setParam("Size_mm", "5");
 			while (ros::ok()) {
 				ros::spinOnce();
 				auto const alpha = get_parameter<float>(n, "Alpha");
@@ -74,6 +74,7 @@ int main(int argc, char *argv[]) {
 
 				w->set_pointcloud_alpha(alpha);
 				w->set_pointcloud_size(size * 1000);
+				rate.sleep();
 			}
 		});
 #ifndef NODISPLAY

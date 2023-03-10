@@ -15,6 +15,6 @@ template<typename T>
 constexpr inline
 auto get_parameter(ros::NodeHandle const& n, char const* const parameter_name) noexcept -> T {
 	std::string parameter_as_string;
-	n.getParam("Alpha", parameter_as_string);
+	n.getParamCached(parameter_name, parameter_as_string);
 	return parse<T>(parameter_as_string);
 }
