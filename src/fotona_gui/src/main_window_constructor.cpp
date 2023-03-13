@@ -1,6 +1,7 @@
 #include <exception>
 #include "main_window.hpp"
 #include "rviz/view_manager.h"
+#include "rviz/tool_manager.h"
 
 namespace RvizDisplayType {
 	auto const Grid   = "rviz/Grid";
@@ -8,7 +9,8 @@ namespace RvizDisplayType {
 	auto const MarkerType = "visualization_msgs/Marker";
 }
 
-auto const rviz_fixed_frame = "pico_flexx_optical_frame";
+auto const rviz_fixed_frame            = "pico_flexx_optical_frame";
+auto const pointcloud_select_tool_name = "<todo>";
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	// init
@@ -62,6 +64,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	this->grid = this->manager->createDisplay(RvizDisplayType::Grid, "top-down orthogonal", true);
 	if(grid == nullptr)
 		throw std::runtime_error("Failed to create grid, something went terribly wrong");
+
+	auto& tool_manager = *this->manager->getToolManager();
+	auto& pointcloud_select_tool = *tool_manager.addTool(pointcloud_select_tool_name);
+	tool_manager.setCurrentTool(&pointcloud_select_tool);
 
 	Ogre::Vector3 const origin(0, 0, 0);
 	auto& view_manager = *(this->manager->getViewManager()->getCurrent());
