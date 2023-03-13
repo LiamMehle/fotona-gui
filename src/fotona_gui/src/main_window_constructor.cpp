@@ -2,6 +2,7 @@
 #include "main_window.hpp"
 #include "rviz/view_manager.h"
 #include "rviz/tool_manager.h"
+#include <qstringlist.h>
 
 namespace RvizDisplayType {
 	auto const Grid   = "rviz/Grid";
@@ -10,7 +11,8 @@ namespace RvizDisplayType {
 }
 
 auto const rviz_fixed_frame            = "pico_flexx_optical_frame";
-auto const pointcloud_select_tool_name = "<todo>";
+// apparently another option is PlantFlag
+auto const pointcloud_select_tool_name = "rviz/PublishPoint";
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	// init
@@ -66,6 +68,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 		throw std::runtime_error("Failed to create grid, something went terribly wrong");
 
 	auto& tool_manager = *this->manager->getToolManager();
+	auto tool_classes = tool_manager.getToolClasses();
+	auto const tool_classes_count = tool_classes.size();
+	for(int i=0; i<tool_classes_count; i++)
+		printf("tool: %s\n",  tool_classes[i]);
 	auto& pointcloud_select_tool = *tool_manager.addTool(pointcloud_select_tool_name);
 	tool_manager.setCurrentTool(&pointcloud_select_tool);
 
