@@ -11,7 +11,7 @@ namespace RvizDisplayType {
 }
 
 auto const rviz_fixed_frame            = "pico_flexx_optical_frame";
-// apparently another option is PlantFlag
+// rviz/FocusCamera rviz/Interact rviz/Measure rviz/MoveCamera rviz/PublishPoint rviz/Select rviz/SetGoal rviz/SetInitialPose rviz_plugin_tutorials/PlantFlag
 auto const pointcloud_select_tool_name = "rviz/PublishPoint";
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
@@ -67,13 +67,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	if(grid == nullptr)
 		throw std::runtime_error("Failed to create grid, something went terribly wrong");
 
-	auto& tool_manager = *this->manager->getToolManager();
-	auto tool_classes = tool_manager.getToolClasses();
-	auto const tool_classes_count = tool_classes.size();
-	for(int i=0; i<tool_classes_count; i++)
-		printf("tool: %s\n",  tool_classes[i]);
-	auto& pointcloud_select_tool = *tool_manager.addTool(pointcloud_select_tool_name);
-	tool_manager.setCurrentTool(&pointcloud_select_tool);
 
 	Ogre::Vector3 const origin(0, 0, 0);
 	auto& view_manager = *(this->manager->getViewManager()->getCurrent());
@@ -100,4 +93,38 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	this->manager->setFixedFrame(rviz_fixed_frame);
 
 	this->manager->startUpdate();  // begin asynchronous update of the vizualization
+
+	auto tool_manager = this->manager->getToolManager();
+	auto tool_classes  = tool_manager->getToolClasses();
+	for (int i=0; i<tool_classes.length(); i++)
+		printf("tool class: %s\n", tool_classes[i].toLocal8Bit().data());
+
+	auto pointcloud_select_tool = tool_manager->addTool(pointcloud_select_tool_name);
+	// auto& pointcloud_select_tool = *tool_manager.addTool("rviz/MoveCamera");
+
+	this->setEnabled(true);
+	this->setVisible(true);
+	this->setUpdatesEnabled(true);
+	this->setMouseTracking(true);
+	this->central_widget->setMouseTracking(true);
+	this->central_widget->setEnabled(true);
+	this->central_widget->setVisible(true);
+	this->central_widget->setUpdatesEnabled(true);
+	this->central_widget->setMouseTracking(true);
+
+	tool_manager->setCurrentTool(pointcloud_select_tool);
+	tool_manager->setDefaultTool(pointcloud_select_tool);
+	tool_manager->setCurrentTool(pointcloud_select_tool);
+	pointcloud_select_tool->activate();
+
+	printf("ClassId:     %s\n", pointcloud_select_tool->getClassId().toLocal8Bit().data()    );
+	printf("Name:        %s\n", pointcloud_select_tool->getName().toLocal8Bit().data()       );
+	printf("Description: %s\n", pointcloud_select_tool->getDescription().toLocal8Bit().data());
+	printf("ShortcutKey: %d\n", pointcloud_select_tool->getShortcutKey());
+
+#define CHECK_TRACKING(NAME, QOBJECT) printf("%s mouse tracking is %s\n", NAME, QOBJECT->hasMouseTracking() ? "enabled" : "DISABLED")
+	CHECK_TRACKING("main window", this);
+	CHECK_TRACKING("central widget", central_widget);
+	CHECK_TRACKING("rviz display", render_panel);
+#undef CHECK_TRACKING
 }
