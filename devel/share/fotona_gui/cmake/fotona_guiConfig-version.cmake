@@ -1,0 +1,1 @@
+/home/liam/ros/new_catkin/devel/.private/fotona_gui/share/fotona_gui/cmake/fotona_guiConfig-version.cmake

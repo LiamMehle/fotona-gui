@@ -1,0 +1,1 @@
+/home/liam/ros/new_catkin/devel/.private/fotona_gui/lib/pkgconfig/fotona_gui.pc

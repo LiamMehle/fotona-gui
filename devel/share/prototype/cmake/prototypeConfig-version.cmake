@@ -1,0 +1,1 @@
+/home/liam/ros/new_catkin/devel/.private/prototype/share/prototype/cmake/prototypeConfig-version.cmake
