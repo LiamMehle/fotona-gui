@@ -5,22 +5,25 @@
 MainWindow::~MainWindow() noexcept {}
 
 void MainWindow::set_view_matrix(Ogre::Matrix4 m) {
-	camera->setCustomViewMatrix(true, m);
+	// throw std::runtime_error("unimplemented");
+	this->camera->setCustomViewMatrix(true, m);
 }
 
 void MainWindow::set_pointcloud_alpha(float alpha) {
-	if (alpha == this->pointcloud_alpha)  // caching because updating is expensive
-		return;
-	this->pointcloud_alpha = alpha;
-	this->pointcloud->subProp("Alpha")->setValue(alpha);
-	this->manager->notifyConfigChanged();
+	throw std::runtime_error("unimplemented");
+	// if (alpha == this->pointcloud_alpha)  // caching because updating is expensive
+	// 	return;
+	// this->pointcloud_alpha = alpha;
+	// this->pointcloud->subProp("Alpha")->setValue(alpha);
+	// this->manager->notifyConfigChanged();
 }
 void MainWindow::set_pointcloud_size(float size) {
-	if (size == this->pointcloud_size)  // caching because updating is expensive
-		return;
-	this->pointcloud_size = size;
-	this->pointcloud->subProp("Size (m)")->setValue(size);
-	this->manager->notifyConfigChanged();
+	throw std::runtime_error("unimplemented");
+	// if (size == this->pointcloud_size)  // caching because updating is expensive
+	// 	return;
+	// this->pointcloud_size = size;
+	// this->pointcloud->subProp("Size (m)")->setValue(size);
+	// this->manager->notifyConfigChanged();
 }
 void MainWindow::set_pointcloud_color_transformer(char const* const transformer) {
 	throw std::runtime_error("unimplemented");

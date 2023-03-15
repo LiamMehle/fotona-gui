@@ -40,22 +40,18 @@ public:
 	void set_pointcloud_color_transformer(char const* const transformer);
 
 private:
-	rviz::Display*            pointcloud;
-	// CustomDepthMapTransformer       depth_map_transformer;
-	Ogre::Camera*             camera;
+	Ogre::Camera* camera;
 	// C++ allows pointer aliasing by default
 	// GCC (which we are forced to use) supports an extension that fixes that
-	QPushButton* __restrict__ clear_button;
-	QPushButton* __restrict__ scan_button;
-	QPushButton* __restrict__ start_button;
-	QPushButton* __restrict__ stop_button;
-	QGridLayout* __restrict__ main_layout;
-	QWidget*     __restrict__ central_widget;
+	// QPushButton* __restrict__ clear_button;
+	// QPushButton* __restrict__ scan_button;
+	// QPushButton* __restrict__ start_button;
+	// QPushButton* __restrict__ stop_button;
+	// QGridLayout* __restrict__ main_layout;
+	// QWidget*     __restrict__ central_widget;
 
-	std::unique_ptr<rviz::VisualizationManager> manager;  // still needs to be freed manually, but C++ has a thing for that
-	rviz::RenderPanel* __restrict__ render_panel;
 	// `Display` in this context meaning something that is shown or element in the reneder pannel.
-	rviz::Display*     __restrict__ grid;
+	// rviz::Display*     __restrict__ grid;
 
 	// cached values becaues updating them regardless is just too expensive
 	float pointcloud_alpha;
