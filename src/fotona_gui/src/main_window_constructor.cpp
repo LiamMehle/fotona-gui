@@ -18,13 +18,15 @@ auto const pointcloud_select_tool_name = "rviz/PublishPoint";
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	// init
 	// new throws if it fails to allocate, which is (or at least should be) handled by the caller.
-	auto clear_button   = new QPushButton();
-	auto scan_button    = new QPushButton();
-	auto start_button   = new QPushButton();
-	auto stop_button    = new QPushButton();
-	auto main_layout    = new QGridLayout();
-	auto central_widget  = new QWidget();
-	auto visualization_frame = new rviz::VisualizationFrame();
+	auto clear_button   = new QPushButton(parent);
+	auto scan_button    = new QPushButton(parent);
+	auto start_button   = new QPushButton(parent);
+	auto stop_button    = new QPushButton(parent);
+	auto main_layout    = new QGridLayout(parent);
+	auto central_widget  = new QWidget(parent);
+	auto visualization_frame = new rviz::VisualizationFrame(parent);
+	auto render_panel = new rviz::RenderPanel(parent);
+	auto visualization_manager = new rviz::VisualizationManager(render_panel, visualization_frame);
 
 	// Pointers can be indexed into and restrict is an non-standard. A reference fixes it.
 
@@ -46,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	main_layout->addWidget(scan_button,  1, 0, 1, 1);
 	main_layout->addWidget(start_button, 2, 0, 1, 1);
 	main_layout->addWidget(stop_button,  3, 0, 1, 1);
-	main_layout->addWidget(visualization_frame, 0, 1, 4, 1);
+	main_layout->addWidget(render_panel, 0, 1, 4, 1);
 
 
 	// fix up default layout
@@ -65,11 +67,26 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
 	// rviz setup
 	
-	// this->manager->initialize();
-	// this->grid = this->manager->createDisplay(RvizDisplayType::Grid, "top-down orthogonal", true);
-	// if(grid == nullptr)
-	// 	throw std::runtime_error("Failed to create grid, something went terribly wrong");
+	visualization_manager->initialize();
 
+	Ogre::Vector3 const origin(0, 0, 0);
+	auto view_manager = visualization_manager->getViewManager()->getCurrent();
+	this->camera       = view_manager->getCamera();
+	camera->setPosition(camera_position);
+	view_manager->lookAt(origin);
+
+	auto grid = visualization_manager->createDisplay(RvizDisplayType::Grid, "grid", true);
+	if(grid == nullptr)
+		throw std::runtime_error("Failed to create grid, something went terribly wrong");
+
+	this->pointcloud = visualization_manager->createDisplay("rviz/PointCloud2", "pico flexx pointcloud", true);
+	if(pointcloud == nullptr)
+		throw std::runtime_error("Failed to create point cloud, something went terribly wrong");
+	this->pointcloud->subProp("Alpha")->setValue(0.5f);
+	this->pointcloud->subProp("Size (m)")->setValue(0.003f);
+	this->pointcloud->subProp("Color Transformer")->setValue("AxisColor");
+	this->pointcloud->subProp("Axis")->setValue("Z");
+	this->pointcloud->setTopic("/pico_flexx/points", "sensor_msgs/PointCloud2");
 	// auto& tool_manager = *this->manager->getToolManager();
 	// auto tool_classes = tool_manager.getToolClasses();
 	// auto const tool_classes_count = tool_classes.size();
@@ -78,22 +95,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	// auto& pointcloud_select_tool = *tool_manager.addTool(pointcloud_select_tool_name);
 	// tool_manager.setCurrentTool(&pointcloud_select_tool);
 
-	// Ogre::Vector3 const origin(0, 0, 0);
-	// auto& view_manager = *(this->manager->getViewManager()->getCurrent());
-	// this->camera       = view_manager.getCamera();
-	// camera->setPosition(camera_position);
-	// // view_manager.lookAt(origin);
 	// // setting up a valid view transform such that the camera won't complain
 	// auto view_matrix = calculate_projection_matrix(-1, 1, -1, 1, 0.001, 1000);
 	// camera->setCustomViewMatrix(true, view_matrix);  // this will be updated in `set_view_matrix`
 
-	// this->pointcloud = this->manager->createDisplay("rviz/PointCloud2", "pico flexx pointcloud", true);
 	// this->manager->setFixedFrame(rviz_fixed_frame);
-	// this->pointcloud->subProp("Alpha")->setValue(0.5f);
-	// this->pointcloud->subProp("Size (m)")->setValue(0.003f);
-	// this->pointcloud->subProp("Color Transformer")->setValue("AxisColor");
-	// this->pointcloud->subProp("Axis")->setValue("Z");
-	// pointcloud->setTopic("/pico_flexx/points", "sensor_msgs/PointCloud2");
 
-	// this->manager->startUpdate();  // begin asynchronous update of the vizualization
+	visualization_manager->startUpdate();  // begin asynchronous update of the vizualization
 }

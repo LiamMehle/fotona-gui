@@ -26,7 +26,7 @@
 	#define __restrict__ // find-replace "__restrict__" with ""
 #endif
 
-auto const camera_position = Ogre::Vector3(0, 0, 5);  // Ogre does not support constexpr
+auto const camera_position = Ogre::Vector3(0, 0, -5);  // Ogre does not support constexpr
 
 class MainWindow : public QMainWindow {
 	Q_OBJECT
@@ -51,7 +51,7 @@ private:
 	// QWidget*     __restrict__ central_widget;
 
 	// `Display` in this context meaning something that is shown or element in the reneder pannel.
-	// rviz::Display*     __restrict__ grid;
+	rviz::Display*     __restrict__ pointcloud;
 
 	// cached values becaues updating them regardless is just too expensive
 	float pointcloud_alpha;
