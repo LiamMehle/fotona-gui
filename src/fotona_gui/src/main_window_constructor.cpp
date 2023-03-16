@@ -79,7 +79,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	auto view_controller = view_manager->getCurrent();
 	view_controller->subProp("X")->setValue(0.f);
 	view_controller->subProp("Y")->setValue(0.f);
-	view_controller->subProp("Scale")->setValue(100.f);
+	this->view_scale = view_controller->subProp("Scale");
 
 
 	auto grid = visualization_manager->createDisplay(RvizDisplayType::Grid, "grid", true);

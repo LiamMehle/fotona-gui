@@ -5,7 +5,7 @@
 MainWindow::~MainWindow() noexcept {}
 
 void MainWindow::set_view_matrix(Ogre::Matrix4 m) {
-	this->camera->setCustomViewMatrix(true, m);
+	// this->camera->setCustomViewMatrix(true, m);
 }
 
 void MainWindow::set_pointcloud_alpha(float alpha) {
@@ -23,4 +23,8 @@ void MainWindow::set_pointcloud_size(float size) {
 void MainWindow::set_pointcloud_color_transformer(char const* const transformer) {
 	throw std::runtime_error("unimplemented");
 	// this->pointcloud->subProp("Color Transformer")->setValue(transformer);
+}
+
+void MainWindow::set_view_scale(float const scale) {
+	this->view_scale->setValue(scale);
 }

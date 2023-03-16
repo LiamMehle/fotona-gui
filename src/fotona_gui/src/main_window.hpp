@@ -5,7 +5,7 @@
 #include <QMainWindow>
 #include <QPushButton>
 #include <QGridLayout>
-
+#include <rviz/properties/property.h>
 #include "ros/ros.h"
 // Visualization_manager.h uses `register`,
 // which GCC flags a warning for as not existing in C++17,
@@ -38,21 +38,13 @@ public:
 	void set_pointcloud_alpha(float alpha);
 	void set_pointcloud_size(float size);
 	void set_pointcloud_color_transformer(char const* const transformer);
-
+	void set_view_scale(float scale);
 private:
 	Ogre::Camera* camera;
-	// C++ allows pointer aliasing by default
-	// GCC (which we are forced to use) supports an extension that fixes that
-	// QPushButton* __restrict__ clear_button;
-	// QPushButton* __restrict__ scan_button;
-	// QPushButton* __restrict__ start_button;
-	// QPushButton* __restrict__ stop_button;
-	// QGridLayout* __restrict__ main_layout;
-	// QWidget*     __restrict__ central_widget;
 
 	// `Display` in this context meaning something that is shown or element in the reneder pannel.
-	rviz::Display*     __restrict__ pointcloud;
-
+	rviz::Display*  __restrict__ pointcloud;
+	rviz::Property* __restrict__ view_scale;
 	// cached values becaues updating them regardless is just too expensive
 	float pointcloud_alpha;
 	float pointcloud_size;
