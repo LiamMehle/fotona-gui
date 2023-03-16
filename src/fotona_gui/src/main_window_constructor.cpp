@@ -92,12 +92,13 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	this->pointcloud->subProp("Axis")->setValue("Z");
 	this->pointcloud->setTopic("/pico_flexx/points", "sensor_msgs/PointCloud2");
 	auto tool_manager = visualization_manager->getToolManager();
-	rviz::SelectionTool* pointcloud_select_tool = static_cast<rviz::SelectionTool*>(tool_manager->addTool(pointcloud_select_tool_name));
+	auto pointcloud_select_tool = tool_manager->addTool(pointcloud_select_tool_name);
 	if (pointcloud_select_tool == nullptr)
 		throw std::runtime_error("pointcloud_select_tool is not of type rviz::SelectionTool");
+	tool_manager->setDefaultTool(pointcloud_select_tool);
 	tool_manager->setCurrentTool(pointcloud_select_tool);
-	pointcloud_select_tool->activate();
 	pointcloud_select_tool->initialize(visualization_manager);  // missing piece
+	
 	tool_manager->setParent(parent);
 	puts("---------------------------------");
 	printf("ClassId:     %s\n", tool_manager->getCurrentTool()->getClassId().toLocal8Bit().data());
