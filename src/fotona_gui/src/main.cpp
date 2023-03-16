@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
 
 				rate.sleep();
 			}
-		}); 
+		});
 #ifndef NODISPLAY
 		w->show();
 		return a.exec();

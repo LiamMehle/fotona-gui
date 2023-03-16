@@ -28,8 +28,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	auto main_layout    = new QGridLayout(parent);
 	auto central_widget  = new QWidget(parent);
 	auto visualization_frame = new rviz::VisualizationFrame(parent);
-	auto render_panel = new rviz::RenderPanel(parent);
-	render_panel->setMouseTracking(true);
+	auto render_panel = new rviz::RenderPanel(visualization_frame);
+
 	auto visualization_manager = new rviz::VisualizationManager(render_panel, visualization_frame);
 	render_panel->initialize(visualization_manager->getSceneManager(), visualization_manager);
 	// Pointers can be indexed into and restrict is an non-standard. A reference fixes it.
@@ -74,51 +74,36 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	visualization_manager->initialize();
 
 	Ogre::Vector3 const origin(0, 0, 0);
-	auto view_manager = visualization_manager->getViewManager()->getCurrent();
-	this->camera       = view_manager->getCamera();
-	camera->setPosition(camera_position);
-	view_manager->lookAt(origin);
+	auto view_manager = visualization_manager->getViewManager();
+	view_manager->setCurrentViewControllerType("rviz/TopDownOrtho");
+	auto view_controller = view_manager->getCurrent();
+	view_controller->subProp("X")->setValue(0.f);
+	view_controller->subProp("Y")->setValue(0.f);
+	view_controller->subProp("Scale")->setValue(100.f);
+
 
 	auto grid = visualization_manager->createDisplay(RvizDisplayType::Grid, "grid", true);
 	if(grid == nullptr)
 		throw std::runtime_error("Failed to create grid, something went terribly wrong");
+	grid->initialize(visualization_manager);
 
 	this->pointcloud = visualization_manager->createDisplay("rviz/PointCloud2", "pico flexx pointcloud", true);
 	if(pointcloud == nullptr)
 		throw std::runtime_error("Failed to create point cloud, something went terribly wrong");
+	this->pointcloud->initialize(visualization_manager);
 	this->pointcloud->subProp("Alpha")->setValue(0.5f);
 	this->pointcloud->subProp("Size (m)")->setValue(0.003f);
-	this->pointcloud->subProp("Color Transformer")->setValue("Channel");
-	this->pointcloud->subProp("Channel")->setValue("Intensity");
+	this->pointcloud->subProp("Color Transformer")->setValue("Intensity");
+	this->pointcloud->subProp("Channel Name")->setValue("intensity");
 	this->pointcloud->setTopic("/pico_flexx/points", "sensor_msgs/PointCloud2");
+
 	auto tool_manager = visualization_manager->getToolManager();
 	auto pointcloud_select_tool = tool_manager->addTool(pointcloud_select_tool_name);
 	if (pointcloud_select_tool == nullptr)
 		throw std::runtime_error("pointcloud_select_tool is not of type rviz::SelectionTool");
+	pointcloud_select_tool->initialize(visualization_manager);  // missing piece
 	tool_manager->setDefaultTool(pointcloud_select_tool);
 	tool_manager->setCurrentTool(pointcloud_select_tool);
-	pointcloud_select_tool->initialize(visualization_manager);  // missing piece
-	
-	tool_manager->setParent(parent);
-	puts("---------------------------------");
-	printf("ClassId:     %s\n", tool_manager->getCurrentTool()->getClassId().toLocal8Bit().data());
-	printf("Name:        %s\n", tool_manager->getCurrentTool()->getName().toLocal8Bit().data());
-	printf("Description: %s\n", tool_manager->getCurrentTool()->getDescription().toLocal8Bit().data());
-	puts("---------------------------------");
-	// auto& tool_manager = *this->manager->getToolManager();
-	// auto tool_classes = tool_manager.getToolClasses();
-	// auto const tool_classes_count = tool_classes.size();
-	// for(int i=0; i<tool_classes_count; i++)
-	// 	printf("tool: %s\n",  tool_classes[i]);
-	// auto& pointcloud_select_tool = *tool_manager.addTool(pointcloud_select_tool_name);
-	// tool_manager.setCurrentTool(&pointcloud_select_tool);
-
-	// // setting up a valid view transform such that the camera won't complain
-	// auto view_matrix = calculate_projection_matrix(-1, 1, -1, 1, 0.001, 1000);
-	// camera->setCustomViewMatrix(true, view_matrix);  // this will be updated in `set_view_matrix`
-
-	auto selection_manager = visualization_manager->getSelectionManager();
-	selection_manager->enableInteraction(true);
 
 	visualization_manager->setFixedFrame(rviz_fixed_frame);
 
