@@ -88,8 +88,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 		throw std::runtime_error("Failed to create point cloud, something went terribly wrong");
 	this->pointcloud->subProp("Alpha")->setValue(0.5f);
 	this->pointcloud->subProp("Size (m)")->setValue(0.003f);
-	this->pointcloud->subProp("Color Transformer")->setValue("AxisColor");
-	this->pointcloud->subProp("Axis")->setValue("Z");
+	this->pointcloud->subProp("Color Transformer")->setValue("Channel");
+	this->pointcloud->subProp("Channel")->setValue("Intensity");
 	this->pointcloud->setTopic("/pico_flexx/points", "sensor_msgs/PointCloud2");
 	auto tool_manager = visualization_manager->getToolManager();
 	auto pointcloud_select_tool = tool_manager->addTool(pointcloud_select_tool_name);
