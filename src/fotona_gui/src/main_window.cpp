@@ -5,9 +5,8 @@
 MainWindow::~MainWindow() noexcept {}
 
 void MainWindow::set_view_matrix(Ogre::Matrix4 m) {
-	// throw std::runtime_error("unimplemented");
-	// this->camera->setCustomViewMatrix(true, m);
-	printf("-\n");
+	this->camera->setCustomViewMatrix(true, m);
+	// printf("-\n");
 }
 
 void MainWindow::set_pointcloud_alpha(float alpha) {

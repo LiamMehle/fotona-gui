@@ -26,7 +26,7 @@
 	#define __restrict__ // find-replace "__restrict__" with ""
 #endif
 
-auto const camera_position = Ogre::Vector3(0, 0, -5);  // Ogre does not support constexpr
+auto const camera_position = Ogre::Vector3(0, 0, 5);  // Ogre does not support constexpr
 
 class MainWindow : public QMainWindow {
 	Q_OBJECT

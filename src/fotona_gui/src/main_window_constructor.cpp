@@ -99,7 +99,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	// auto view_matrix = calculate_projection_matrix(-1, 1, -1, 1, 0.001, 1000);
 	// camera->setCustomViewMatrix(true, view_matrix);  // this will be updated in `set_view_matrix`
 
-	// this->manager->setFixedFrame(rviz_fixed_frame);
+	visualization_manager->setFixedFrame(rviz_fixed_frame);
 
 	visualization_manager->startUpdate();  // begin asynchronous update of the vizualization
 }
