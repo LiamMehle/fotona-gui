@@ -25,7 +25,7 @@ int main(int argc, char *argv[]) {
 		QApplication a(argc, argv);          // Qt stuff, must be on the main thread
 		w = std::unique_ptr<MainWindow>(new MainWindow());
 #endif
-		auto event_loop = std::thread([&n]() {
+		auto event_loop = std::thread([&n, &a]() {
 			auto const subscriber = n.subscribe("/pico_flexx/points", 128, update_view_matrix);
 			auto rate = ros::Rate(1);
 			auto alpha_parameter_key      = std::string{"Alpha"};
@@ -45,6 +45,7 @@ int main(int argc, char *argv[]) {
 
 				rate.sleep();
 			}
+			a.exit(0);
 		}); 
 #ifndef NODISPLAY
 		w->show();
