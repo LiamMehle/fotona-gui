@@ -89,7 +89,7 @@ void process_mesh(const sensor_msgs::PointCloud2& pointcloud) {
 			}
 		}
 	}
-
+	publisher.publish(mesh);
 }
 
 void setup_mesh_generator(ros::NodeHandle n, char const* const destination_topic, char const* const source_topic) {
