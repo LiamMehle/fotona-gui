@@ -64,7 +64,7 @@ void process_mesh(const sensor_msgs::PointCloud2& pointcloud) {
 		return point;
 	};
 
-	#pragma omp parallel for num_threads(2) collapse(2) schedule(static)
+	#pragma omp parallel for simd num_threads(2) collapse(2) schedule(static) safelen(512)
 	for (int i=0; i<m; i++) {
 		for (int j=0; j<n; j++) {
 			// for point [i,j], there are 2 tris
