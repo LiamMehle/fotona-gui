@@ -1,6 +1,6 @@
 #include "ros_event_loop.hpp"
 
-void ros_event_loop(ros::NodeHandle n, MainWindow& w) {
+void ros_event_loop(ros::NodeHandle& n, MainWindow& w) {
 	setup_mesh_generator(n, "/pico_flexx/mesh", "/pico_flexx/points");
 	auto const subscriber = n.subscribe("/pico_flexx/points", 128, update_view_matrix);
 	auto rate = ros::Rate(1);
