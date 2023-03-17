@@ -45,10 +45,10 @@ void process_mesh(const sensor_msgs::PointCloud2& pointcloud) {
 	// mesh.pose.position;
 	// mesh.scale
 	mesh.color.a = 1;
-	auto const extract_coords = [](point_t const p) {
+	auto constexpr extract_coords = [](point_t const p) {
 		return std::array<float, 3>{p.x, p.y, p.z};
 	};
-	auto const extract_color = [](point_t const p) {
+	auto constexpr extract_color = [](point_t const p) {
 		std_msgs::ColorRGBA color;
 		color.a = 1;
 		color.r = p.intensity;
@@ -56,7 +56,7 @@ void process_mesh(const sensor_msgs::PointCloud2& pointcloud) {
 		color.b = p.intensity;
 		return color;
 	};
-	auto const array_to_point = [](std::array<float, 3> const a) {
+	auto constexpr array_to_point = [](std::array<float, 3> const a) {
 		geometry_msgs::Point point;
 		point.x = a[0];
 		point.y = a[1];
