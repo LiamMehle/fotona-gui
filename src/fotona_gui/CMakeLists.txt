@@ -31,6 +31,7 @@ src/main_window.cpp
 src/main_window_constructor.cpp
 src/rviz_active_management.cpp
 src/mesh_generator.cpp
+src/ros_event_loop.cpp
 # src/depth_map_transformer.cpp
 )
 target_compile_features(${BIN_NAME} PRIVATE
