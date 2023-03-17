@@ -15,21 +15,19 @@ namespace RvizDisplayType {
 }
 
 auto const rviz_fixed_frame            = "pico_flexx_optical_frame";
-// apparently another option is PlantFlag
 auto const pointcloud_select_tool_name = "rviz/PublishPoint";
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	// init
 	// new throws if it fails to allocate, which is (or at least should be) handled by the caller.
-	auto clear_button   = new QPushButton(parent);
-	auto scan_button    = new QPushButton(parent);
-	auto start_button   = new QPushButton(parent);
-	auto stop_button    = new QPushButton(parent);
-	auto main_layout    = new QGridLayout(parent);
-	auto central_widget  = new QWidget(parent);
-	auto visualization_frame = new rviz::VisualizationFrame(parent);
-	auto render_panel = new rviz::RenderPanel(visualization_frame);
-
+	auto clear_button          = new QPushButton(parent);  // raw pointers instead of smart pointers because Qt will take ownership
+	auto scan_button           = new QPushButton(parent);
+	auto start_button          = new QPushButton(parent);
+	auto stop_button           = new QPushButton(parent);
+	auto main_layout           = new QGridLayout(parent);
+	auto central_widget        = new QWidget(parent);
+	auto visualization_frame   = new rviz::VisualizationFrame(parent);
+	auto render_panel          = new rviz::RenderPanel(visualization_frame);
 	auto visualization_manager = new rviz::VisualizationManager(render_panel, visualization_frame);
 	render_panel->initialize(visualization_manager->getSceneManager(), visualization_manager);
 	// Pointers can be indexed into and restrict is an non-standard. A reference fixes it.
@@ -62,6 +60,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	FIX(start_button);
 	FIX(stop_button);
 	FIX(central_widget);
+	FIX(render_panel);
 #undef FIX
 
 	for(int i=0; i<main_layout->rowCount(); i++)
@@ -77,10 +76,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	auto view_manager = visualization_manager->getViewManager();
 	view_manager->setCurrentViewControllerType("rviz/TopDownOrtho");
 	auto view_controller = view_manager->getCurrent();
-	view_controller->subProp("X")->setValue(0.f);
+	view_controller->subProp("X")->setValue(0.f);                // center the view
 	view_controller->subProp("Y")->setValue(0.f);
 	this->view_scale = view_controller->subProp("Scale");
-
 
 	auto grid = visualization_manager->createDisplay(RvizDisplayType::Grid, "grid", true);
 	if(grid == nullptr)
