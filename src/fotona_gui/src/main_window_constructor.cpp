@@ -89,11 +89,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	if(pointcloud == nullptr)
 		throw std::runtime_error("Failed to create point cloud, something went terribly wrong");
 	this->pointcloud->initialize(visualization_manager);
-	this->pointcloud->subProp("Alpha")->setValue(0.5f);
+	this->pointcloud->subProp("Alpha")->setValue(0.f);
 	this->pointcloud->subProp("Size (m)")->setValue(0.003f);
 	this->pointcloud->subProp("Color Transformer")->setValue("Intensity");
 	this->pointcloud->subProp("Channel Name")->setValue("intensity");
 	this->pointcloud->setTopic("/pico_flexx/points", "sensor_msgs/PointCloud2");
+
+	auto mesh = visualization_manager->createDisplay("rviz/Marker", "pico flexx reconstructed mesh", true);
+	mesh->setTopic("/pico_flexx/mesh", "visualization_msgs/Marker");
 
 	auto tool_manager = visualization_manager->getToolManager();
 	auto pointcloud_select_tool = tool_manager->addTool(pointcloud_select_tool_name);
