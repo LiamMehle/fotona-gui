@@ -1,5 +1,6 @@
 #include <exception>
 #include "main_window.hpp"
+#include "transparent_button.hpp"
 #include <rviz/view_manager.h>
 #include <rviz/visualization_frame.h>
 #include <rviz/tool_manager.h>
@@ -7,6 +8,7 @@
 
 #include <rviz/default_plugin/tools/selection_tool.h>
 #include <rviz/selection/selection_manager.h>
+#include <QGraphicsOpacityEffect>
 
 namespace RvizDisplayType {
 	auto const Grid   = "rviz/Grid";
@@ -20,10 +22,10 @@ auto const pointcloud_select_tool_name = "rviz/PublishPoint";
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	// init
 	// new throws if it fails to allocate, which is (or at least should be) handled by the caller.
-	auto clear_button          = new QPushButton(parent);  // raw pointers instead of smart pointers because Qt will take ownership
-	auto scan_button           = new QPushButton(parent);
-	auto start_button          = new QPushButton(parent);
-	auto stop_button           = new QPushButton(parent);
+	auto clear_button          = new TransparentButton("clear", parent);  // raw pointers instead of smart pointers because Qt will take ownership
+	auto scan_button           = new QPushButton("scan", parent);
+	auto start_button          = new QPushButton("start", parent);
+	auto stop_button           = new QPushButton("stop", parent);
 	auto main_layout           = new QGridLayout(parent);
 	auto button_layout         = new QVBoxLayout(parent);
 	auto central_widget        = new QWidget(parent);
@@ -37,10 +39,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	this->setCentralWidget(central_widget);
 
 	// set button text
-	clear_button->setText("clear");
-	scan_button->setText("scan");
-	start_button->setText("start");
-	stop_button->setText("stop it, get some help");
+	// clear_button->setText("clear");
+	// scan_button->setText("scan");
+	// start_button->setText("start");
+	// stop_button->setText("stop it, get some help");
 
 	// callbacks are connected to buttons like so:
 	// this->connect(this->clear_button, &QPushButton::clicked, this,

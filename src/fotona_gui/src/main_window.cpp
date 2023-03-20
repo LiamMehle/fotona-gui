@@ -14,6 +14,7 @@ void MainWindow::set_pointcloud_alpha(float alpha) {
 	this->pointcloud_alpha = alpha;
 	this->pointcloud->subProp("Alpha")->setValue(alpha);
 }
+
 void MainWindow::set_pointcloud_size(float size) {
 	if (size == this->pointcloud_size)  // caching because updating is expensive
 		return;
