@@ -10,6 +10,7 @@
 #include <rviz/selection/selection_manager.h>
 #include <QGraphicsOpacityEffect>
 #include <QDockWidget>
+#include <QFrame>
 
 QGraphicsOpacityEffect* opacity(qreal alpha) {
 	auto opacity_effect = new QGraphicsOpacityEffect();
@@ -35,7 +36,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	auto scan_button           = new QPushButton("scan");
 	auto start_button          = new QPushButton("start");
 	auto stop_button           = new QPushButton("stop");
-	auto main_layout           = new QHBoxLayout();
+	auto main_layout           = new QGridLayout();
 	auto button_layout         = new QVBoxLayout();
 	auto button_container      = new QWidget();
 	auto button_dock           = new QDockWidget();
@@ -55,12 +56,16 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	button_layout->addWidget(scan_button);
 	button_layout->addWidget(start_button);
 	button_layout->addWidget(stop_button);
-	button_container->setLayout(button_layout);
-	button_dock->setWidget(button_container);
-	visualization_frame->addDockWidget(Qt::LeftDockWidgetArea, button_dock);
-	visualization_frame->setCentralWidget(render_panel);
+	// button_container->setLayout(button_layout);
+	// button_dock->setWidget(button_container);
+	main_layout->addWidget(render_panel, 0, 0, 1, 2);
+	main_layout->addLayout(button_layout, 0, 0, 1, 1);
+	main_layout->setColumnStretch(0, 1);
+	main_layout->setColumnStretch(1, 4);
+	central_widget->setLayout(main_layout);
+	visualization_frame->setCentralWidget(central_widget);
 
-	button_dock->setGraphicsEffect(opacity(0.2f));
+	// button_dock->setGraphicsEffect(opacity(0.2f));
 
 	// fix up default layout
 #define FIX(WIDGET) WIDGET->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding)
