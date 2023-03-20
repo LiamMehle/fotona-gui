@@ -11,6 +11,12 @@
 #include <QGraphicsOpacityEffect>
 #include <QDockWidget>
 
+QGraphicsOpacityEffect* opacity(qreal alpha) {
+	auto opacity_effect = new QGraphicsOpacityEffect();
+	opacity_effect->setOpacity(alpha);
+	return opacity_effect;
+}
+
 namespace RvizDisplayType {
 	auto const Grid   = "rviz/Grid";
 	auto const Marker = "rviz/Marker";
@@ -40,9 +46,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	render_panel->initialize(visualization_manager->getSceneManager(), visualization_manager);
 	// Pointers can be indexed into and restrict is an non-standard. A reference fixes it.
 
-	main_layout->addWidget(visualization_frame);
-	central_widget->setLayout(main_layout);
-	this->setCentralWidget(central_widget);
+	// main_layout->addWidget(visualization_frame);
+	// central_widget->setLayout(main_layout);
+	this->setCentralWidget(visualization_frame);
 
 	// button layout/setup
 	button_layout->addWidget(clear_button);
@@ -51,14 +57,10 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	button_layout->addWidget(stop_button);
 	button_container->setLayout(button_layout);
 	button_dock->setWidget(button_container);
-	// auto window_manager = visualization_manager->getWindowManager();
-	// window_manager->addPane("controls", button_container, Qt::LeftDockWidgetArea);
 	visualization_frame->addDockWidget(Qt::LeftDockWidgetArea, button_dock);
 	visualization_frame->setCentralWidget(render_panel);
 
-	auto opacity_effect = new QGraphicsOpacityEffect(this);
-	opacity_effect->setOpacity(0.2);
-	clear_button->setGraphicsEffect(opacity_effect);
+	button_dock->setGraphicsEffect(opacity(0.2f));
 
 	// fix up default layout
 #define FIX(WIDGET) WIDGET->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding)
