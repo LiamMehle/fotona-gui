@@ -5,30 +5,28 @@
 #include <QObject>
 #include <QGraphicsOpacityEffect>
 
+#include <QMainWindow>
+
 class TransparentButton : public QPushButton {
+private:
     // Q_OBJECT
 public:
-    TransparentButton(char const* label, QWidget* parent) : QPushButton(label, parent) {}
+    TransparentButton(char const* label, QWidget* parent=nullptr) : QPushButton(label, parent) {
+        // this->setAttribute(Qt::WA_TransparentForMouseEvents);  // not relevant or helpful
+        this->setAttribute(Qt::WA_NoSystemBackground, false);  // use system background, no custom bg is provided
+        this->setAttribute(Qt::WA_OpaquePaintEvent, false);    // disable optimizations for opaque widgets
+        this->setAttribute(Qt::WA_PaintOnScreen, false);       // breaks the UI, don't enable
+        this->setAttribute(Qt::WA_TranslucentBackground, false);
+        this->setAttribute(Qt::WA_AlwaysStackOnTop, true);
+    }
 protected:
     void enterEvent(QEvent* const event) override {
-        const_cast<QWidget*>(dynamic_cast<QWidget const*>(this->parent()))->update();
-        puts("entered");
     }
     void leaveEvent(QEvent* const event) override {
-        const_cast<QWidget*>(dynamic_cast<QWidget const*>(this->parent()))->update();
-        puts("left");
     }
     void focusInEvent(QFocusEvent* const event) override {
-        // Change the background color when the button is focused
-        this->QPushButton::focusInEvent(event);
-        this->QPushButton::update();
-        this->QPushButton::graphicsEffect()->update();
     }
 
     void focusOutEvent(QFocusEvent* const event) override {
-        // Revert to the original background color when the button loses focus
-        this->QPushButton::setStyleSheet("");
-        this->QPushButton::focusOutEvent(event);
-        this->QPushButton::graphicsEffect()->update();
     }
 };

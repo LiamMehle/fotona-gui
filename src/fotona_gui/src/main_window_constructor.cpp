@@ -20,16 +20,18 @@ auto const rviz_fixed_frame            = "pico_flexx_optical_frame";
 auto const pointcloud_select_tool_name = "rviz/PublishPoint";
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
+	this->setAttribute(Qt::WA_PaintOnScreen, false);
+	this->setAttribute(Qt::WA_PaintUnclipped, false);
 	// init
 	// new throws if it fails to allocate, which is (or at least should be) handled by the caller.
-	auto clear_button          = new TransparentButton("clear", parent);  // raw pointers instead of smart pointers because Qt will take ownership
-	auto scan_button           = new QPushButton("scan", parent);
-	auto start_button          = new QPushButton("start", parent);
-	auto stop_button           = new QPushButton("stop", parent);
-	auto main_layout           = new QGridLayout(parent);
-	auto button_layout         = new QVBoxLayout(parent);
-	auto central_widget        = new QWidget(parent);
-	auto visualization_frame   = new rviz::VisualizationFrame(parent);
+	auto clear_button          = new TransparentButton("clear", this);  // raw pointers instead of smart pointers because Qt will take ownership
+	auto scan_button           = new QPushButton("scan");
+	auto start_button          = new QPushButton("start");
+	auto stop_button           = new QPushButton("stop");
+	auto main_layout           = new QGridLayout();
+	auto button_layout         = new QVBoxLayout();
+	auto central_widget        = new QWidget();
+	auto visualization_frame   = new rviz::VisualizationFrame(this);
 	auto render_panel          = new rviz::RenderPanel(visualization_frame);
 	auto visualization_manager = new rviz::VisualizationManager(render_panel, visualization_frame);
 	render_panel->initialize(visualization_manager->getSceneManager(), visualization_manager);
@@ -37,6 +39,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 
 	central_widget->setLayout(main_layout);
 	this->setCentralWidget(central_widget);
+
+	render_panel->setAttribute(Qt::WA_NoSystemBackground, true);
+	render_panel->setAttribute(Qt::WA_OpaquePaintEvent, true);
+	render_panel->setAttribute(Qt::WA_PaintOnScreen, false);
+	render_panel->setAttribute(Qt::WA_TranslucentBackground, false);
+	render_panel->setAttribute(Qt::WA_AlwaysStackOnTop, false);
 
 	// set button text
 	// clear_button->setText("clear");
@@ -54,7 +62,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	button_layout->addWidget(start_button);
 	button_layout->addWidget(stop_button);
 	main_layout->addLayout(button_layout, 0, 0, 1, 1);
-	main_layout->addWidget(render_panel, 0, 0, 1, 2);
+	// main_layout->addWidget(render_panel, 0, 0, 1, 2);
 
 	render_panel->lower();
 	clear_button->raise();
@@ -62,6 +70,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	start_button->raise();
 	stop_button->raise();
 
+	auto opacity_effect = new QGraphicsOpacityEffect(this);
+	opacity_effect->setOpacity(0.2);
+	clear_button->setGraphicsEffect(opacity_effect);
 
 	// fix up default layout
 #define FIX(WIDGET) WIDGET->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding)
@@ -91,12 +102,12 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	auto grid = visualization_manager->createDisplay(RvizDisplayType::Grid, "grid", true);
 	if(grid == nullptr)
 		throw std::runtime_error("Failed to create grid, something went terribly wrong");
-	grid->initialize(visualization_manager);
+	// grid->initialize(visualization_manager);
 
 	this->pointcloud = visualization_manager->createDisplay("rviz/PointCloud2", "pico flexx pointcloud", true);
 	if(pointcloud == nullptr)
 		throw std::runtime_error("Failed to create point cloud, something went terribly wrong");
-	this->pointcloud->initialize(visualization_manager);
+	// this->pointcloud->initialize(visualization_manager);
 	this->pointcloud->subProp("Alpha")->setValue(0.f);
 	this->pointcloud->subProp("Size (m)")->setValue(0.003f);
 	this->pointcloud->subProp("Color Transformer")->setValue("Intensity");
