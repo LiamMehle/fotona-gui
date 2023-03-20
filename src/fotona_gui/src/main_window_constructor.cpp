@@ -25,6 +25,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	auto start_button          = new QPushButton(parent);
 	auto stop_button           = new QPushButton(parent);
 	auto main_layout           = new QGridLayout(parent);
+	auto button_layout         = new QVBoxLayout(parent);
 	auto central_widget        = new QWidget(parent);
 	auto visualization_frame   = new rviz::VisualizationFrame(parent);
 	auto render_panel          = new rviz::RenderPanel(visualization_frame);
@@ -46,11 +47,18 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	// 	[this](){ puts("button has been clicked!"); });
 
 	// layout setup
-	main_layout->addWidget(clear_button, 0, 0, 1, 1);
-	main_layout->addWidget(scan_button,  1, 0, 1, 1);
-	main_layout->addWidget(start_button, 2, 0, 1, 1);
-	main_layout->addWidget(stop_button,  3, 0, 1, 1);
-	main_layout->addWidget(render_panel, 0, 1, 4, 1);
+	button_layout->addWidget(clear_button);
+	button_layout->addWidget(scan_button);
+	button_layout->addWidget(start_button);
+	button_layout->addWidget(stop_button);
+	main_layout->addLayout(button_layout, 0, 0, 1, 1);
+	main_layout->addWidget(render_panel, 0, 0, 1, 2);
+
+	render_panel->lower();
+	clear_button->raise();
+	scan_button->raise();
+	start_button->raise();
+	stop_button->raise();
 
 
 	// fix up default layout
@@ -63,8 +71,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	FIX(render_panel);
 #undef FIX
 
-	for(int i=0; i<main_layout->rowCount(); i++)
-		main_layout->setRowStretch(i, 1);
 	main_layout->setColumnStretch(0, 1);
 	main_layout->setColumnStretch(1, 4);
 

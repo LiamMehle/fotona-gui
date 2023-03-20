@@ -4,7 +4,7 @@
 #include <optional>
 
 template<typename T>
-constexpr inline
+inline
 auto parse(std::string const& string) noexcept -> T {
 	std::istringstream string_stream(string);
 	T parse;
