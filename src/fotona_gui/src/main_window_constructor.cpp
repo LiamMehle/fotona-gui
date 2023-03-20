@@ -9,6 +9,7 @@
 #include <rviz/default_plugin/tools/selection_tool.h>
 #include <rviz/selection/selection_manager.h>
 #include <QGraphicsOpacityEffect>
+#include <QDockWidget>
 
 namespace RvizDisplayType {
 	auto const Grid   = "rviz/Grid";
@@ -28,47 +29,32 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	auto scan_button           = new QPushButton("scan");
 	auto start_button          = new QPushButton("start");
 	auto stop_button           = new QPushButton("stop");
-	auto main_layout           = new QGridLayout();
+	auto main_layout           = new QHBoxLayout();
 	auto button_layout         = new QVBoxLayout();
+	auto button_container      = new QWidget();
+	auto button_dock           = new QDockWidget();
 	auto central_widget        = new QWidget();
-	auto visualization_frame   = new rviz::VisualizationFrame(this);
+	auto visualization_frame   = new rviz::VisualizationFrame();
 	auto render_panel          = new rviz::RenderPanel(visualization_frame);
 	auto visualization_manager = new rviz::VisualizationManager(render_panel, visualization_frame);
 	render_panel->initialize(visualization_manager->getSceneManager(), visualization_manager);
 	// Pointers can be indexed into and restrict is an non-standard. A reference fixes it.
 
+	main_layout->addWidget(visualization_frame);
 	central_widget->setLayout(main_layout);
 	this->setCentralWidget(central_widget);
 
-	render_panel->setAttribute(Qt::WA_NoSystemBackground, true);
-	render_panel->setAttribute(Qt::WA_OpaquePaintEvent, true);
-	render_panel->setAttribute(Qt::WA_PaintOnScreen, false);
-	render_panel->setAttribute(Qt::WA_TranslucentBackground, false);
-	render_panel->setAttribute(Qt::WA_AlwaysStackOnTop, false);
-
-	// set button text
-	// clear_button->setText("clear");
-	// scan_button->setText("scan");
-	// start_button->setText("start");
-	// stop_button->setText("stop it, get some help");
-
-	// callbacks are connected to buttons like so:
-	// this->connect(this->clear_button, &QPushButton::clicked, this,
-	// 	[this](){ puts("button has been clicked!"); });
-
-	// layout setup
+	// button layout/setup
 	button_layout->addWidget(clear_button);
 	button_layout->addWidget(scan_button);
 	button_layout->addWidget(start_button);
 	button_layout->addWidget(stop_button);
-	main_layout->addLayout(button_layout, 0, 0, 1, 1);
-	// main_layout->addWidget(render_panel, 0, 0, 1, 2);
-
-	render_panel->lower();
-	clear_button->raise();
-	scan_button->raise();
-	start_button->raise();
-	stop_button->raise();
+	button_container->setLayout(button_layout);
+	button_dock->setWidget(button_container);
+	// auto window_manager = visualization_manager->getWindowManager();
+	// window_manager->addPane("controls", button_container, Qt::LeftDockWidgetArea);
+	visualization_frame->addDockWidget(Qt::LeftDockWidgetArea, button_dock);
+	visualization_frame->setCentralWidget(render_panel);
 
 	auto opacity_effect = new QGraphicsOpacityEffect(this);
 	opacity_effect->setOpacity(0.2);
@@ -83,9 +69,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	FIX(central_widget);
 	FIX(render_panel);
 #undef FIX
-
-	main_layout->setColumnStretch(0, 1);
-	main_layout->setColumnStretch(1, 4);
 
 	// rviz setup
 	
