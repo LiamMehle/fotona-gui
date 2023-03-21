@@ -30,7 +30,6 @@ void process_mesh(const sensor_msgs::PointCloud2& pointcloud) {
 	auto const point_count = pointcloud.data.size()/sizeof(point_t);
 	size_t const m = pointcloud.height;
 	size_t const n = pointcloud.width;
-	assert(n*m == point_count);
 	// assuming point [0, 0] is top left
 	// for every point not on the top or left edge, there are 2 tris
 	size_t const tri_count = 2*(n-1)*(m-1);
@@ -77,7 +76,10 @@ void process_mesh(const sensor_msgs::PointCloud2& pointcloud) {
 		return point;
 	};
 
-	// #pragma omp parallel for simd num_threads(2) collapse(2) schedule(static) safelen(512)
+	auto* mesh_points = mesh.points.data();
+	auto* mesh_colors = mesh.colors.data();
+
+	// #pragma omp parallel for num_threads(4) collapse(2) schedule(static)
 	for (int i=1; i<m; i++) {
 		for (int j=1; j<n; j++) {
 			// for point [i,j], there are 2 tris
@@ -97,8 +99,8 @@ void process_mesh(const sensor_msgs::PointCloud2& pointcloud) {
 			std::array const colors = concat_arrays(colors0, colors1);
 			auto const initial_offset = (i*m + j)*points.size();
 			for (int k=0; k<points.size(); k++) {
-				mesh.points[initial_offset+k] = array_to_point(points[k]);
-				mesh.colors[initial_offset+k] = colors[k];
+				mesh_points[initial_offset+k] = array_to_point(points[k]);
+				mesh_colors[initial_offset+k] = colors[k];
 			}
 		}
 	}
