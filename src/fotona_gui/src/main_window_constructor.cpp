@@ -1,5 +1,7 @@
 #include <exception>
 #include "main_window.hpp"
+#include <QPushButton>
+#include <QHBoxLayout>
 // #include "transparent_button.hpp"
 // #include <rviz/view_manager.h>
 // #include <rviz/visualization_frame.h>
@@ -12,13 +14,17 @@
 // #include <QDockWidget>
 // #include <QFrame>
 
-
-
-QWidget* create_main_screen() {
+QWidget* create_main_screen(MainWindow* main_window) {
 	auto* const central_widget = new QWidget();
 
 	auto* const torso_mode_button = new QPushButton("TORSO (chest/back)");
 	auto* const limb_mode_button  = new QPushButton("LIMB (arm/leg)");
+	QPushButton::connect(torso_mode_button, &QPushButton::clicked, [=] {
+		main_window->transition_into(Mode::Torso, Screen::Align);
+	});
+	QPushButton::connect(limb_mode_button, &QPushButton::clicked, [=] {
+		main_window->transition_into(Mode::Limb, Screen::Align);
+	});
 
 	auto* const layout = new QHBoxLayout();
 	layout->addWidget(torso_mode_button);
@@ -32,10 +38,35 @@ QWidget* create_main_screen() {
 }
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
-	auto main_menu_central_widget = create_main_screen();
-	this->setCentralWidget(main_menu_central_widget);
-	main_menu_central_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+	this->transition_into(Mode::Undefined, Screen::ModeSelect);
 	this->show();
+}
+
+
+void MainWindow::transition_into(Mode const mode, Screen const screen) {
+	this->state.mode = mode;
+	this->state.screen = screen;
+	this->update_state();
+}
+
+void MainWindow::update_state() {
+	switch (this->state.screen) {
+		case Screen::ModeSelect:
+			this->setCentralWidget(create_main_screen(this));
+			break;
+		case Screen::Align:
+			break;
+		case Screen::DrawBorder:
+			break;
+		case Screen::ConfirmBorder:
+			break;
+		case Screen::Execute:
+			break;
+		case Screen::Finished:
+			break;
+		default:
+			throw std::runtime_error("bad Screen state.");
+	}
 }
 
 // namespace RvizDisplayType {

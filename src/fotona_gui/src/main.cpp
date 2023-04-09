@@ -22,7 +22,7 @@ int main(int argc, char *argv[]) {
 		QApplication a(argc, argv);
 		w = std::unique_ptr<MainWindow>(new MainWindow());
 		auto event_loop = std::thread([&n, &a]() {
-			ros_event_loop(n, *w);
+			// ros_event_loop(n, *w);
 			a.exit(0);
 		});
 		return a.exec();
