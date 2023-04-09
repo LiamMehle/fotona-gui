@@ -4,6 +4,7 @@
 #include <QPushButton>
 #include <QHBoxLayout>
 #include <QStackedWidget>
+#include <QLabel>
 
 // #include "rviz/view_manager.h"
 // #include "transparent_button.hpp"
@@ -41,17 +42,68 @@ QWidget* create_main_screen(MainWindow* main_window) {
 	return central_widget;
 }
 
+QWidget* create_rviz_screen(MainWindow* main_window) {
+	auto* const central_widget = new QWidget();
+
+	auto* const torso_mode_button = new QPushButton("TORSO (chest/back)");
+	auto* const limb_mode_button  = new QPushButton("LIMB (arm/leg)");
+	QPushButton::connect(torso_mode_button, &QPushButton::clicked, [=] {
+		main_window->transition_into(Mode::Torso, Screen::Align);
+	});
+	QPushButton::connect(limb_mode_button, &QPushButton::clicked, [=] {
+		main_window->transition_into(Mode::Limb, Screen::Align);
+	});
+
+	auto* const layout = new QHBoxLayout();
+	layout->addWidget(torso_mode_button);
+	layout->addWidget(limb_mode_button);
+	central_widget->setLayout(layout);
+
+	central_widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+	torso_mode_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+	limb_mode_button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+	return central_widget;
+}
+QWidget* create_finish_screen(MainWindow* main_window) {
+	auto const central_widget = new QWidget();
+	auto const main_label     = new QLabel("FINISHED");
+	auto const sub_label      = new QLabel("tap anywhere on the screen to continue");
+
+	main_label->setAlignment(Qt::AlignHCenter);
+	sub_label->setAlignment(Qt::AlignHCenter);
+
+	auto const layout = new QVBoxLayout();
+	layout->addWidget(main_label);
+	layout->addWidget(sub_label);
+	layout->setAlignment(Qt::AlignCenter);
+	central_widget->setLayout(layout);
+
+	return central_widget;
+}
+
+// should be the same as the order of widgets in stack
+enum CentralWidgetStack {
+	Main,
+	Rviz,
+	Finish
+};
+
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
+	// should be the same as the order of widgets in enum
 	auto central_widget = new QStackedWidget();
 	central_widget->addWidget(create_main_screen(this));
+	central_widget->addWidget(create_rviz_screen(this));
+	central_widget->addWidget(create_finish_screen(this));
+	
 	this->setCentralWidget(central_widget);
+	central_widget->setCurrentIndex(CentralWidgetStack::Finish);
 	this->transition_into(Mode::Undefined, Screen::ModeSelect);
 	this->show();
 }
 
 
 void MainWindow::transition_into(Mode const mode, Screen const screen) {
-	this->state.mode = mode;
+	this->state.mode   = mode;
 	this->state.screen = screen;
 	this->update_state();
 }
