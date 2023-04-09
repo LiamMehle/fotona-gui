@@ -3,7 +3,6 @@
 #include <exception>
 #include <QPushButton>
 #include <QHBoxLayout>
-#include <QStackedWidget>
 #include <QLabel>
 
 // #include "rviz/view_manager.h"
@@ -65,7 +64,11 @@ QWidget* create_rviz_screen(MainWindow* main_window) {
 	return central_widget;
 }
 QWidget* create_finish_screen(MainWindow* main_window) {
-	auto const central_widget = new QWidget();
+	auto const central_widget = new QPushButton();
+
+	QPushButton::connect(central_widget, &QPushButton::clicked, [=] {
+		main_window->transition_into(Mode::Undefined, Screen::ModeSelect);
+	});
 	auto const main_label     = new QLabel("FINISHED");
 	auto const sub_label      = new QLabel("tap anywhere on the screen to continue");
 
@@ -90,14 +93,14 @@ enum CentralWidgetStack {
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent) {
 	// should be the same as the order of widgets in enum
-	auto central_widget = new QStackedWidget();
-	central_widget->addWidget(create_main_screen(this));
-	central_widget->addWidget(create_rviz_screen(this));
-	central_widget->addWidget(create_finish_screen(this));
+	this->central_widget = new QStackedWidget();
+	this->central_widget->addWidget(create_main_screen(this));
+	this->central_widget->addWidget(create_rviz_screen(this));
+	this->central_widget->addWidget(create_finish_screen(this));
 	
-	this->setCentralWidget(central_widget);
-	central_widget->setCurrentIndex(CentralWidgetStack::Finish);
-	this->transition_into(Mode::Undefined, Screen::ModeSelect);
+	this->setCentralWidget(this->central_widget);
+	this->central_widget->setCurrentIndex(CentralWidgetStack::Finish);
+	this->transition_into(Mode::Undefined, Screen::Finished);
 	this->show();
 }
 
@@ -111,16 +114,22 @@ void MainWindow::transition_into(Mode const mode, Screen const screen) {
 void MainWindow::update_state() {
 	switch (this->state.screen) {
 		case Screen::ModeSelect:
+			this->central_widget->setCurrentIndex(CentralWidgetStack::Main);
 			break;
 		case Screen::Align:
+			this->central_widget->setCurrentIndex(CentralWidgetStack::Rviz);
 			break;
 		case Screen::DrawBorder:
+			this->central_widget->setCurrentIndex(CentralWidgetStack::Rviz);
 			break;
 		case Screen::ConfirmBorder:
+			this->central_widget->setCurrentIndex(CentralWidgetStack::Rviz);
 			break;
 		case Screen::Execute:
+			this->central_widget->setCurrentIndex(CentralWidgetStack::Rviz);
 			break;
 		case Screen::Finished:
+			this->central_widget->setCurrentIndex(CentralWidgetStack::Finish);
 			break;
 		default:
 			throw std::runtime_error("bad Screen state.");

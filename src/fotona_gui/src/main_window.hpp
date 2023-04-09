@@ -3,6 +3,7 @@
 #include <memory>
 
 #include <QMainWindow>
+#include <QStackedWidget>
 // #include <QPushButton>
 // #include <QGridLayout>
 // #include <rviz/properties/property.h>
@@ -53,6 +54,7 @@ class MainWindow : public QMainWindow {
 
 private:
 	AppState state;
+	QStackedWidget* central_widget;
 
 public:
 	MainWindow(QWidget *parent = nullptr);

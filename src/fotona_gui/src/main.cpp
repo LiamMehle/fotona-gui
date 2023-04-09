@@ -21,10 +21,10 @@ int main(int argc, char *argv[]) {
 	try {
 		QApplication a(argc, argv);
 		w = std::unique_ptr<MainWindow>(new MainWindow());
-		auto event_loop = std::thread([&n, &a]() {
-			// ros_event_loop(n, *w);
-			a.exit(0);
-		});
+		// auto event_loop = std::thread([&n, &a]() {
+		// 	// ros_event_loop(n, *w);
+		// 	a.exit(0);
+		// });
 		return a.exec();
 	} catch (ros::InvalidNodeNameException) {
 		std::printf("[err]: Please reinstall fotona_gui, it is likely broken beyond repair.");
