@@ -13,27 +13,19 @@
 
 std::unique_ptr<MainWindow> w;
 
-// #define NODISPLAY
 #define LOG
 
 int main(int argc, char *argv[]) {
-	ros::init(argc, argv, "fotona_gui"); // small overhead
-	ros::NodeHandle n;                   // likely best done on the main thread
+	ros::init(argc, argv, "fotona_gui");
+	ros::NodeHandle n;
 	try {
-#ifndef NODISPLAY
-		QApplication a(argc, argv);          // Qt stuff, must be on the main thread
+		QApplication a(argc, argv);
 		w = std::unique_ptr<MainWindow>(new MainWindow());
-#endif
 		auto event_loop = std::thread([&n, &a]() {
 			ros_event_loop(n, *w);
 			a.exit(0);
 		});
-#ifndef NODISPLAY
-		w->show();
 		return a.exec();
-#else
-		event_loop.join();
-#endif
 	} catch (ros::InvalidNodeNameException) {
 		std::printf("[err]: Please reinstall fotona_gui, it is likely broken beyond repair.");
 	} catch (std::bad_alloc) {
