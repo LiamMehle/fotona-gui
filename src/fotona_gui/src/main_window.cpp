@@ -17,6 +17,11 @@
 #include "geometry_msgs/PointStamped.h"
 #pragma GCC diagnostic pop
 
+/*
+    - never make the user wait
+    - never make the user guess
+    - never make the user fix it
+*/
 
 MainWindow::MainWindow() : QMainWindow(nullptr) {
     auto const central_widget = new QWidget();
@@ -52,7 +57,7 @@ MainWindow::MainWindow() : QMainWindow(nullptr) {
 
     if (grid_display == nullptr)
         puts("failed to create grid display");
-    if (pointcloud == nullptr)
+    if (pointcloud_display == nullptr)
 		throw std::runtime_error("Failed to create point cloud, something went terribly wrong");
     pointcloud_display->initialize(visualization_manager);
     pointcloud_display->subProp("Alpha")->setValue(0.f);
