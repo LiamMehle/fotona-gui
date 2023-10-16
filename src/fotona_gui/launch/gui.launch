@@ -1,0 +1,7 @@
+<launch>
+<node
+  pkg="fotona_gui"
+  type="fotona_gui_node"
+  name="fotona_gui"
+/>
+</launch>

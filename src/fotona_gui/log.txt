@@ -1,0 +1,459 @@
+
+=================================================================
+==8419==ERROR: LeakSanitizer: detected memory leaks
+
+Direct leak of 65536 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02af93f5 in __interceptor_aligned_alloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cc:183
+    #1 0x7f1aeab9a6bf  (<unknown module>)
+
+Direct leak of 8856 byte(s) in 27 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ae2237ccc in void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char const*>(char const*, char const*, std::forward_iterator_tag) (/usr/lib/x86_64-linux-gnu/OGRE-1.9.0/RenderSystem_GL.so.1.9.0+0x49ccc)
+
+Direct leak of 7893 byte(s) in 262 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1b022fa87c in void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char*>(char*, char*, std::forward_iterator_tag) (/lib/x86_64-linux-gnu/libOgreMain.so.1.9.0+0x18087c)
+
+Direct leak of 7392 byte(s) in 77 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1b0237750f  (/lib/x86_64-linux-gnu/libOgreMain.so.1.9.0+0x1fd50f)
+
+Direct leak of 5163 byte(s) in 202 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ae2294ee2 in Ogre::GLSupport::initialiseExtensions() (/usr/lib/x86_64-linux-gnu/OGRE-1.9.0/RenderSystem_GL.so.1.9.0+0xa6ee2)
+
+Direct leak of 3280 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1b02500baf  (/lib/x86_64-linux-gnu/libOgreMain.so.1.9.0+0x386baf)
+
+Direct leak of 2367 byte(s) in 75 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ae2234b4c in void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char*>(char*, char*, std::forward_iterator_tag) (/usr/lib/x86_64-linux-gnu/OGRE-1.9.0/RenderSystem_GL.so.1.9.0+0x46b4c)
+
+Direct leak of 1949 byte(s) in 58 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1affc4a2ce in std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_assign(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/lib/x86_64-linux-gnu/libstdc++.so.6+0x1432ce)
+
+Direct leak of 1536 byte(s) in 16 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1b0243ceef  (/lib/x86_64-linux-gnu/libOgreMain.so.1.9.0+0x2c2eef)
+
+Direct leak of 1536 byte(s) in 16 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1b024fb4df  (/lib/x86_64-linux-gnu/libOgreMain.so.1.9.0+0x3814df)
+
+Direct leak of 1344 byte(s) in 8 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1b024c0ddf  (/lib/x86_64-linux-gnu/libOgreMain.so.1.9.0+0x346ddf)
+
+Direct leak of 768 byte(s) in 8 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1b024c0e2f  (/lib/x86_64-linux-gnu/libOgreMain.so.1.9.0+0x346e2f)
+
+Direct leak of 640 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02af8c3e in __interceptor_realloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cc:163
+    #1 0x7f1aff69e780 in XGetVisualInfo (/lib/x86_64-linux-gnu/libX11.so.6+0x3c780)
+
+Direct leak of 629 byte(s) in 16 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1affc4a38d in std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_mutate(unsigned long, unsigned long, char const*, unsigned long) (/lib/x86_64-linux-gnu/libstdc++.so.6+0x14338d)
+
+Direct leak of 576 byte(s) in 6 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1b02416c0f  (/lib/x86_64-linux-gnu/libOgreMain.so.1.9.0+0x29cc0f)
+
+Direct leak of 512 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02af8808 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cc:144
+    #1 0x7f1ae80baea4  (/usr/lib/wsl/drivers/nvlt.inf_amd64_c5e185f86dd46f51/libnvwgf2umx.so+0x12cbea4)
+
+Direct leak of 377 byte(s) in 17 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1b023775cc  (/lib/x86_64-linux-gnu/libOgreMain.so.1.9.0+0x1fd5cc)
+
+Direct leak of 256 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02af8808 in __interceptor_malloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cc:144
+    #1 0x7f1af71332f4  (/lib/x86_64-linux-gnu/libfontconfig.so.1+0x212f4)
+
+Direct leak of 208 byte(s) in 7 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1b0273db3c in void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char*>(char*, char*, std::forward_iterator_tag) (/lib/x86_64-linux-gnu/libOgreOverlay.so.1.9.0+0x2fb3c)
+
+Direct leak of 171 byte(s) in 3 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1b0234bf8e  (/lib/x86_64-linux-gnu/libOgreMain.so.1.9.0+0x1d1f8e)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8fc826c in void class_loader::impl::registerPlugin<rviz::OrbitViewController, rviz::ViewController>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x4d126c)
+    #2 0x7f1ad8d853fb  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28e3fb)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8ef1775 in void class_loader::impl::registerPlugin<rviz::PointStampedDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x3fa775)
+    #2 0x7f1ad8d81a75  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28aa75)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8fcf0dc in void class_loader::impl::registerPlugin<rviz::FPSViewController, rviz::ViewController>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x4d80dc)
+    #2 0x7f1ad8d85eef  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28eeef)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8ed1ce9 in void class_loader::impl::registerPlugin<rviz::OdometryDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x3dace9)
+    #2 0x7f1ad8d81635  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28a635)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8eab33c in void class_loader::impl::registerPlugin<rviz::MarkerArrayDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x3b433c)
+    #2 0x7f1ad8d80263  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x289263)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8fccbec in void class_loader::impl::registerPlugin<rviz::FixedOrientationOrthoViewController, rviz::ViewController>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x4d5bec)
+    #2 0x7f1ad8d85bd0  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28ebd0)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8eff5d9 in void class_loader::impl::registerPlugin<rviz::PointCloud2Display, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x4085d9)
+    #2 0x7f1ad8d81cfe  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28acfe)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8f1f425 in void class_loader::impl::registerPlugin<rviz::PointCloudDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x428425)
+    #2 0x7f1ad8d8206e  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28b06e)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8f2ee25 in void class_loader::impl::registerPlugin<rviz::FlatColorPCTransformer, rviz::PointCloudTransformer>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x437e25)
+    #2 0x7f1ad8d822ee  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28b2ee)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8fc992c in void class_loader::impl::registerPlugin<rviz::XYOrbitViewController, rviz::ViewController>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x4d292c)
+    #2 0x7f1ad8d85690  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28e690)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8fc5a4c in void class_loader::impl::registerPlugin<rviz::InteractionTool, rviz::Tool>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x4cea4c)
+    #2 0x7f1ad8d85130  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28e130)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8e7f19c in void class_loader::impl::registerPlugin<rviz::InteractiveMarkerDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x38819c)
+    #2 0x7f1ad8d7f9c0  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x2889c0)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8e77d3c in void class_loader::impl::registerPlugin<rviz::ImageDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x380d3c)
+    #2 0x7f1ad8d7f754  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x288754)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8fc116c in void class_loader::impl::registerPlugin<rviz::GoalTool, rviz::Tool>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x4ca16c)
+    #2 0x7f1ad8d84a10  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28da10)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8e6835c in void class_loader::impl::registerPlugin<rviz::GridDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x37135c)
+    #2 0x7f1ad8d7ea50  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x287a50)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8e4f5e9 in void class_loader::impl::registerPlugin<rviz::FluidPressureDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x3585e9)
+    #2 0x7f1ad8d7e5de  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x2875de)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8fd076c in void class_loader::impl::registerPlugin<rviz::FrameViewController, rviz::ViewController>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x4d976c)
+    #2 0x7f1ad8d861c2  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28f1c2)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8fc43ec in void class_loader::impl::registerPlugin<rviz::SelectionTool, rviz::Tool>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x4cd3ec)
+    #2 0x7f1ad8d84e90  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28de90)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8e08b55 in void class_loader::impl::registerPlugin<rviz::DepthCloudDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x311b55)
+    #2 0x7f1ad8d7d86d  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28686d)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8deb969 in void class_loader::impl::registerPlugin<rviz::CameraDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x2f4969)
+    #2 0x7f1ad8d7cdbf  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x285dbf)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8fbc4fc in void class_loader::impl::registerPlugin<rviz::MoveTool, rviz::Tool>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x4c54fc)
+    #2 0x7f1ad8d8461c  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28d61c)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8e3e6e9 in void class_loader::impl::registerPlugin<rviz::EffortDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x3476e9)
+    #2 0x7f1ad8d7e355  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x287355)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8fcb0ac in void class_loader::impl::registerPlugin<rviz::ThirdPersonFollowerViewController, rviz::ViewController>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x4d40ac)
+    #2 0x7f1ad8d85930  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28e930)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8e5d269 in void class_loader::impl::registerPlugin<rviz::GridCellsDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x366269)
+    #2 0x7f1ad8d7e7f5  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x2877f5)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8de64fc in void class_loader::impl::registerPlugin<rviz::AxesDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x2ef4fc)
+    #2 0x7f1ad8d7cb60  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x285b60)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8e6cfe9 in void class_loader::impl::registerPlugin<rviz::IlluminanceDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x375fe9)
+    #2 0x7f1ad8d7ec5e  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x287c5e)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8fc37bc in void class_loader::impl::registerPlugin<rviz::InitialPoseTool, rviz::Tool>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x4cc7bc)
+    #2 0x7f1ad8d84bf0  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28dbf0)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8fbbb4c in void class_loader::impl::registerPlugin<rviz::MeasureTool, rviz::Tool>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x4c4b4c)
+    #2 0x7f1ad8d84350  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28d350)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8e94859 in void class_loader::impl::registerPlugin<rviz::LaserScanDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x39d859)
+    #2 0x7f1ad8d7fe5e  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x288e5e)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8ea687c in void class_loader::impl::registerPlugin<rviz::MapDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x3af87c)
+    #2 0x7f1ad8d80070  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x289070)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8fbab0c in void class_loader::impl::registerPlugin<rviz::FocusTool, rviz::Tool>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x4c3b0c)
+    #2 0x7f1ad8d840b0  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28d0b0)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8eb8519 in void class_loader::impl::registerPlugin<rviz::MarkerDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x3c1519)
+    #2 0x7f1ad8d80445  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x289445)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8fa718c in void class_loader::impl::registerPlugin<rviz::TFDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x4b018c)
+    #2 0x7f1ad8d83e14  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28ce14)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8ee2f29 in void class_loader::impl::registerPlugin<rviz::PathDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x3ebf29)
+    #2 0x7f1ad8d81855  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28a855)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8f96339 in void class_loader::impl::registerPlugin<rviz::TemperatureDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x49f339)
+    #2 0x7f1ad8d83bbe  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28cbbe)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8f904f5 in void class_loader::impl::registerPlugin<rviz::TwistStampedDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x4994f5)
+    #2 0x7f1ad8d837c0  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28c7c0)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8f90875 in void class_loader::impl::registerPlugin<rviz::AccelStampedDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x499875)
+    #2 0x7f1ad8d83749  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28c749)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8f2e015 in void class_loader::impl::registerPlugin<rviz::AxisColorPCTransformer, rviz::PointCloudTransformer>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x437015)
+    #2 0x7f1ad8d82277  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28b277)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8f8a06c in void class_loader::impl::registerPlugin<rviz::RobotModelDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x49306c)
+    #2 0x7f1ad8d83560  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28c560)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8f2f785 in void class_loader::impl::registerPlugin<rviz::IntensityPCTransformer, rviz::PointCloudTransformer>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x438785)
+    #2 0x7f1ad8d82360  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28b360)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8f2db65 in void class_loader::impl::registerPlugin<rviz::RGB8PCTransformer, rviz::PointCloudTransformer>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x436b65)
+    #2 0x7f1ad8d823d2  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28b3d2)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8f2e4c5 in void class_loader::impl::registerPlugin<rviz::MONO8PCTransformer, rviz::PointCloudTransformer>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x4374c5)
+    #2 0x7f1ad8d82444  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28b444)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8f70979 in void class_loader::impl::registerPlugin<rviz::RangeDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x479979)
+    #2 0x7f1ad8d830c5  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28c0c5)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8f62ab9 in void class_loader::impl::registerPlugin<rviz::PoseWithCovarianceDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x46bab9)
+    #2 0x7f1ad8d82ea5  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28bea5)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8f53729 in void class_loader::impl::registerPlugin<rviz::PoseDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x45c729)
+    #2 0x7f1ad8d82c85  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28bc85)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8f44319 in void class_loader::impl::registerPlugin<rviz::PoseArrayDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x44d319)
+    #2 0x7f1ad8d82a65  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28ba65)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8f34719 in void class_loader::impl::registerPlugin<rviz::PolygonDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x43d719)
+    #2 0x7f1ad8d82845  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28b845)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8f2f2d5 in void class_loader::impl::registerPlugin<rviz::XYZPCTransformer, rviz::PointCloudTransformer>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x4382d5)
+    #2 0x7f1ad8d82528  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28b528)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8f2e975 in void class_loader::impl::registerPlugin<rviz::RGBF32PCTransformer, rviz::PointCloudTransformer>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x437975)
+    #2 0x7f1ad8d824b6  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28b4b6)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8f7e3f9 in void class_loader::impl::registerPlugin<rviz::RelativeHumidityDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x4873f9)
+    #2 0x7f1ad8d8330e  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28c30e)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8fbec1c in void class_loader::impl::registerPlugin<rviz::PointTool, rviz::Tool>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x4c7c1c)
+    #2 0x7f1ad8d847f0  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28d7f0)
+
+Direct leak of 160 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8f90175 in void class_loader::impl::registerPlugin<rviz::WrenchStampedDisplay, rviz::Display>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x499175)
+    #2 0x7f1ad8d83832  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28c832)
+
+Direct leak of 112 byte(s) in 2 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ae2272758  (/usr/lib/x86_64-linux-gnu/OGRE-1.9.0/RenderSystem_GL.so.1.9.0+0x84758)
+    #2 0x7f1ae22665b5  (/usr/lib/x86_64-linux-gnu/OGRE-1.9.0/RenderSystem_GL.so.1.9.0+0x785b5)
+
+Direct leak of 80 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02af8a06 in __interceptor_calloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cc:153
+    #1 0x7f1af10cf306  (/usr/lib/x86_64-linux-gnu/dri/swrast_dri.so+0x8ab306)
+
+Direct leak of 48 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1b01d5e496 in class_loader::impl::loadLibrary(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, class_loader::ClassLoader*) (/opt/ros/noetic/lib/libclass_loader.so+0x1b496)
+
+Direct leak of 44 byte(s) in 2 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ae21e0c0c in void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char*>(char*, char*, std::forward_iterator_tag) (/usr/lib/x86_64-linux-gnu/OGRE-1.9.0/Plugin_OctreeSceneManager.so.1.9.0+0x1fc0c)
+
+Direct leak of 25 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1b023daca4 in Ogre::LodStrategyManager::addStrategy(Ogre::LodStrategy*) (/lib/x86_64-linux-gnu/libOgreMain.so.1.9.0+0x260ca4)
+    #2 0x7f1b023dadf4 in Ogre::LodStrategyManager::LodStrategyManager() (/lib/x86_64-linux-gnu/libOgreMain.so.1.9.0+0x260df4)
+
+Direct leak of 25 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1b023d046d in Ogre::LodStrategy::LodStrategy(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/lib/x86_64-linux-gnu/libOgreMain.so.1.9.0+0x25646d)
+
+Direct leak of 24 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1b0247adbf  (/lib/x86_64-linux-gnu/libOgreMain.so.1.9.0+0x300dbf)
+    #2 0x7f1b02415495  (/lib/x86_64-linux-gnu/libOgreMain.so.1.9.0+0x29b495)
+
+Indirect leak of 13248 byte(s) in 276 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1b025100dc in std::tr1::_Hashtable<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned int>, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned int> >, std::_Select1st<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned int> >, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::tr1::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::tr1::__detail::_Mod_range_hashing, std::tr1::__detail::_Default_ranged_hash, std::tr1::__detail::_Prime_rehash_policy, false, false, true>::_M_insert_bucket(std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned int> const&, unsigned long, unsigned long) (/lib/x86_64-linux-gnu/libOgreMain.so.1.9.0+0x3960dc)
+
+Indirect leak of 3472 byte(s) in 62 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1b024c5267  (/lib/x86_64-linux-gnu/libOgreMain.so.1.9.0+0x34b267)
+
+Indirect leak of 2460 byte(s) in 99 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1b022fa87c in void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char*>(char*, char*, std::forward_iterator_tag) (/lib/x86_64-linux-gnu/libOgreMain.so.1.9.0+0x18087c)
+
+Indirect leak of 2438 byte(s) in 53 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1affc4a2ce in std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_assign(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/lib/x86_64-linux-gnu/libstdc++.so.6+0x1432ce)
+
+Indirect leak of 1471 byte(s) in 60 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1b028a1f4c in void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char*>(char*, char*, std::forward_iterator_tag) (/opt/ros/noetic/lib/librviz.so+0x12cf4c)
+
+Indirect leak of 832 byte(s) in 52 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1b01d607e5 in void std::vector<class_loader::ClassLoader*, std::allocator<class_loader::ClassLoader*> >::_M_realloc_insert<class_loader::ClassLoader* const&>(__gnu_cxx::__normal_iterator<class_loader::ClassLoader**, std::vector<class_loader::ClassLoader*, std::allocator<class_loader::ClassLoader*> > >, class_loader::ClassLoader* const&) (/opt/ros/noetic/lib/libclass_loader.so+0x1d7e5)
+    #2 0x7f1b01d5e6c2 in class_loader::impl::loadLibrary(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, class_loader::ClassLoader*) (/opt/ros/noetic/lib/libclass_loader.so+0x1b6c2)
+
+Indirect leak of 720 byte(s) in 15 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1b02440107 in std::tr1::_Hashtable<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, Ogre::Node*>, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, Ogre::Node*> >, std::_Select1st<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, Ogre::Node*> >, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::tr1::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::tr1::__detail::_Mod_range_hashing, std::tr1::__detail::_Default_ranged_hash, std::tr1::__detail::_Prime_rehash_policy, false, false, true>::_M_insert_bucket(std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, Ogre::Node*> const&, unsigned long, unsigned long) (/lib/x86_64-linux-gnu/libOgreMain.so.1.9.0+0x2c6107)
+
+Indirect leak of 384 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ae226d980 in void std::vector<std::pair<std::pair<unsigned int, unsigned int>, short>, std::allocator<std::pair<std::pair<unsigned int, unsigned int>, short> > >::_M_realloc_insert<std::pair<std::pair<unsigned int, unsigned int>, short> const&>(__gnu_cxx::__normal_iterator<std::pair<std::pair<unsigned int, unsigned int>, short>*, std::vector<std::pair<std::pair<unsigned int, unsigned int>, short>, std::allocator<std::pair<std::pair<unsigned int, unsigned int>, short> > > >, std::pair<std::pair<unsigned int, unsigned int>, short> const&) (/usr/lib/x86_64-linux-gnu/OGRE-1.9.0/RenderSystem_GL.so.1.9.0+0x7f980)
+
+Indirect leak of 336 byte(s) in 7 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1b02420c07 in std::tr1::_Hashtable<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned short>, std::allocator<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned short> >, std::_Select1st<std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned short> >, std::equal_to<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::tr1::hash<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > >, std::tr1::__detail::_Mod_range_hashing, std::tr1::__detail::_Default_ranged_hash, std::tr1::__detail::_Prime_rehash_policy, false, false, true>::_M_allocate_node(std::pair<std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const, unsigned short> const&) (/lib/x86_64-linux-gnu/libOgreMain.so.1.9.0+0x2a6c07)
+
+Indirect leak of 336 byte(s) in 7 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1b024fe8b7  (/lib/x86_64-linux-gnu/libOgreMain.so.1.9.0+0x3848b7)
+
+Indirect leak of 320 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ae228d991 in Ogre::GLRenderSystem::GLRenderSystem() (/usr/lib/x86_64-linux-gnu/OGRE-1.9.0/RenderSystem_GL.so.1.9.0+0x9f991)
+
+Indirect leak of 217 byte(s) in 7 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x55eddf397975 in void std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> >::_M_construct<char const*>(char const*, char const*, std::forward_iterator_tag) /usr/include/c++/9/bits/basic_string.tcc:219
+
+Indirect leak of 32 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02af8a06 in __interceptor_calloc ../../../../src/libsanitizer/asan/asan_malloc_linux.cc:153
+    #1 0x7f1af713393c  (/lib/x86_64-linux-gnu/libfontconfig.so.1+0x2193c)
+
+Indirect leak of 24 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8fd0c1d in void class_loader::impl::registerPlugin<rviz::FrameViewController, rviz::ViewController>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x4d9c1d)
+    #2 0x7f1ad8d861c2  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28f1c2)
+
+Indirect leak of 24 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8fcf58d in void class_loader::impl::registerPlugin<rviz::FPSViewController, rviz::ViewController>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x4d858d)
+    #2 0x7f1ad8d85eef  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28eeef)
+
+Indirect leak of 24 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8fcd09d in void class_loader::impl::registerPlugin<rviz::FixedOrientationOrthoViewController, rviz::ViewController>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x4d609d)
+    #2 0x7f1ad8d85bd0  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28ebd0)
+
+Indirect leak of 24 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8fcb55d in void class_loader::impl::registerPlugin<rviz::ThirdPersonFollowerViewController, rviz::ViewController>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x4d455d)
+    #2 0x7f1ad8d85930  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28e930)
+
+Indirect leak of 24 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8fc9ddd in void class_loader::impl::registerPlugin<rviz::XYOrbitViewController, rviz::ViewController>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x4d2ddd)
+    #2 0x7f1ad8d85690  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28e690)
+
+Indirect leak of 24 byte(s) in 1 object(s) allocated from:
+    #0 0x7f1b02afa587 in operator new(unsigned long) ../../../../src/libsanitizer/asan/asan_new_delete.cc:104
+    #1 0x7f1ad8fc871d in void class_loader::impl::registerPlugin<rviz::OrbitViewController, rviz::ViewController>(std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::__cxx11::basic_string<char, std::char_traits<char>, std::allocator<char> > const&) (/opt/ros/noetic/lib/librviz_default_plugin.so+0x4d171d)
+    #2 0x7f1ad8d853fb  (/opt/ros/noetic/lib/librviz_default_plugin.so+0x28e3fb)
+
+SUMMARY: AddressSanitizer: 146077 byte(s) leaked in 1511 allocation(s).
