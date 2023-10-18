@@ -24,6 +24,7 @@
 */
 
 
+// unused
 // class to abuse event filtering to run custom code upon click
 class RenderPanelEventFilter : public QObject {
 private:
@@ -124,7 +125,7 @@ void MainWindow::transition(Stage const stage) {
 				auto tool_manager = this->visualization_manager->getToolManager();
 				auto tool = tool_manager->addTool("rviz/PublishPoint");
 				tool_manager->setCurrentTool(tool);
-				this->visualization_manager->getRenderPanel()->installEventFilter(new RenderPanelEventFilter([]{}));
+				tool_manager->setDefaultTool(tool);
 			}
 			break;
 
