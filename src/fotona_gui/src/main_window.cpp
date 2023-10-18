@@ -1,6 +1,7 @@
 #include "main_window.hpp"
 
 #include <cstdio>
+#include <utility>
 #include <exception>
 #include <QPushButton>
 #include <QHBoxLayout>
@@ -21,6 +22,24 @@
 	- never make the user fix it
 */
 
+
+// class to abuse event filtering to run custom code upon click
+class RenderPanelEventFilter : public QObject {
+private:
+	std::function<void()> callable;
+public:
+	RenderPanelEventFilter(std::function<void()> callable) {
+		this->callable = callable;
+	}
+protected:
+    bool eventFilter(QObject *obj, QEvent *event) override {
+		if (event->type() == QEvent::MouseButtonPress)
+			this->callable();
+		return false;
+	};
+};
+
+
 MainWindow::MainWindow() : 
 	QMainWindow(nullptr),
 	button_left(new QPushButton()),
@@ -30,7 +49,7 @@ MainWindow::MainWindow() :
 	auto const layout         = new QGridLayout();
 
 	auto const render_panel = new rviz::RenderPanel();
-	auto const visualization_manager = new rviz::VisualizationManager(render_panel);
+	this->visualization_manager = new rviz::VisualizationManager(render_panel);
 	visualization_manager->initialize();
 	render_panel->initialize(visualization_manager->getSceneManager(), visualization_manager);
 
@@ -98,7 +117,16 @@ void MainWindow::transition(Stage const stage) {
 			QPushButton::connect(this->button_right, &QPushButton::clicked, [=]{
 				this->transition(Stage::Run);
 			});
+
+			{
+				// set up mouse tool for picking point in cloud
+				auto tool_manager = this->visualization_manager->getToolManager();
+				auto tool = tool_manager->addTool("rviz/PublishPoint");
+				tool_manager->setCurrentTool(tool);
+				this->visualization_manager->getRenderPanel()->installEventFilter(new RenderPanelEventFilter([]{}));
+			}
 			break;
+
 
 		case Stage::Run:
 			this->status_text->setText("running");

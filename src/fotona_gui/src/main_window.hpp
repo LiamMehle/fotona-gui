@@ -10,6 +10,10 @@
 #include <QStackedLayout>
 // #include "rviz_bundle.hpp"
 #include "ros/ros.h"
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wregister"
+#include <rviz/visualization_manager.h>
+#pragma GCC diagnostic pop
 // #include <QPushButton>
 // #include <QGridLayout>
 // #include <rviz/properties/property.h>
@@ -48,6 +52,8 @@ private:
 	QPushButton* button_left;
 	QPushButton* button_right;
 	QLabel*   status_text;
+
+	rviz::VisualizationManager* visualization_manager;
 public:
 	MainWindow();
 	~MainWindow();
