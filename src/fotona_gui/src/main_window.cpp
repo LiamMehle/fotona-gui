@@ -110,6 +110,7 @@ void MainWindow::transition(Stage const stage) {
 			this->button_right->hide();
 			// todo implement
 			break;
+
 		case Stage::Done:
 			this->status_text->setText("DONE");
 			this->button_left->show();
@@ -119,6 +120,7 @@ void MainWindow::transition(Stage const stage) {
     		});
 			this->button_right->hide();
 			break;
+	
 		default:
 			break;
 	}
