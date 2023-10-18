@@ -3,7 +3,7 @@
 #include <memory>
 
 #include <QMainWindow>
-#include <QStackedWidget>
+#include <QLabel>
 #include <QGridLayout>
 #include <QPushButton>
 #include <QObject>
@@ -35,30 +35,22 @@
 
 // auto const camera_position = Ogre::Vector3(0, 0, 5);  // Ogre does not support constexpr
 
-enum Mode {
-	Undefined,
-	Torso,
-	Limb
-};
-
-enum Screen {
-	ModeSelect,
-	Align,
-	DrawBorder,
-	ConfirmBorder,
-	Execute,
-	Finished
-};
-
-struct AppState {
-	Screen screen;
-	Mode mode;
+enum Stage {
+    Position,
+    ConfigurePerimiter,
+    Run,
+    Done
 };
 
 class MainWindow : public QMainWindow {
 	Q_OBJECT
-
+private:
+	QPushButton* button_left;
+	QPushButton* button_right;
+	QLabel*   status_text;
 public:
 	MainWindow();
 	~MainWindow();
+private:
+	void transition(Stage);
 };
