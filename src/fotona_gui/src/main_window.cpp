@@ -17,7 +17,8 @@
 #include "geometry_msgs/PointStamped.h"
 #pragma GCC diagnostic pop
 
-/*	- never make the user wait
+/*
+	- never make the user wait
 	- never make the user guess
 	- never make the user fix it
 */
