@@ -90,6 +90,12 @@ MainWindow::MainWindow() :
 	pointcloud_display->subProp("Channel Name")->setValue("intensity");
 	pointcloud_display->setTopic("/pico_flexx/points", "sensor_msgs/PointCloud2");
 	visualization_manager->startUpdate();
+	
+	// set up mouse tool for picking point in cloud
+	auto tool_manager = this->visualization_manager->getToolManager();
+	auto tool = tool_manager->addTool("rviz/PublishPoint");
+	tool_manager->setCurrentTool(tool);
+	tool_manager->setDefaultTool(tool);
 	puts("done initing");
 }
 
@@ -119,14 +125,6 @@ void MainWindow::transition(Stage const stage) {
 			QPushButton::connect(this->button_right, &QPushButton::clicked, [=]{
 				this->transition(Stage::Run);
 			});
-
-			{
-				// set up mouse tool for picking point in cloud
-				auto tool_manager = this->visualization_manager->getToolManager();
-				auto tool = tool_manager->addTool("rviz/PublishPoint");
-				tool_manager->setCurrentTool(tool);
-				tool_manager->setDefaultTool(tool);
-			}
 			break;
 
 
