@@ -66,8 +66,9 @@ MainWindow::MainWindow() :
 
 	this->show();
 
-	auto const grid_display       = visualization_manager->createDisplay("rviz/Grid",        "grid",   true);
-	auto const pointcloud_display = visualization_manager->createDisplay("rviz/PointCloud2", "points", true);
+	auto const grid_display       = visualization_manager->createDisplay("rviz/Grid",        "grid",      true);
+	auto const pointcloud_display = visualization_manager->createDisplay("rviz/PointCloud2", "points",    true);
+	this->perimeter_display       = visualization_manager->createDisplay("rviz/Polygon",     "perimeter", false);
 
 	auto view_manager = visualization_manager->getViewManager();
 	if (view_manager == nullptr)
@@ -89,8 +90,11 @@ MainWindow::MainWindow() :
 	pointcloud_display->subProp("Color Transformer")->setValue("Intensity");
 	pointcloud_display->subProp("Channel Name")->setValue("intensity");
 	pointcloud_display->setTopic("/pico_flexx/points", "sensor_msgs/PointCloud2");
+
 	visualization_manager->startUpdate();
-	
+
+	pointcloud_display->setTopic("/perimeter", "geometry_msgs/Polygon");
+
 	// set up mouse tool for picking point in cloud
 	auto tool_manager = this->visualization_manager->getToolManager();
 	auto tool = tool_manager->addTool("rviz/PublishPoint");
@@ -111,6 +115,7 @@ void MainWindow::transition(Stage const stage) {
 			QPushButton::connect(this->button_right, &QPushButton::clicked, [=]{
 				this->transition(Stage::ConfigurePerimiter);
 			});
+			this->perimeter_display->setEnabled(false);
 			break;
 
 		case Stage::ConfigurePerimiter:
@@ -125,8 +130,9 @@ void MainWindow::transition(Stage const stage) {
 			QPushButton::connect(this->button_right, &QPushButton::clicked, [=]{
 				this->transition(Stage::Run);
 			});
+			this->perimeter_display->setEnabled(true);
+			this->perimeter_points.clear();
 			break;
-
 
 		case Stage::Run:
 			this->status_text->setText("running");
@@ -136,10 +142,12 @@ void MainWindow::transition(Stage const stage) {
         		this->transition(Stage::ConfigurePerimiter);
     		});
 			this->button_right->hide();
+			this->perimeter_display->setEnabled(true);
 			// todo implement
 			break;
 
 		case Stage::Done:
+			// todo: hide perimeter
 			this->status_text->setText("DONE");
 			this->button_left->show();
 			this->button_left->setText("back: positioning");
@@ -147,6 +155,7 @@ void MainWindow::transition(Stage const stage) {
         		this->transition(Stage::Position);
     		});
 			this->button_right->hide();
+			this->perimeter_display->setEnabled(false);
 			break;
 	
 		default:

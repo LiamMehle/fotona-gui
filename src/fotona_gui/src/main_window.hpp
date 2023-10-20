@@ -1,6 +1,7 @@
 #pragma once
 
 #include <memory>
+#include <vector>
 
 #include <QMainWindow>
 #include <QLabel>
@@ -10,6 +11,8 @@
 #include <QStackedLayout>
 // #include "rviz_bundle.hpp"
 #include "ros/ros.h"
+
+#include "geometry_msgs/Point32.h"
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wregister"
 #include <rviz/visualization_manager.h>
@@ -54,7 +57,10 @@ private:
 	QLabel*   status_text;
 
 	rviz::VisualizationManager* visualization_manager;
+	rviz::Display*              perimeter_display;
 public:
+	std::vector<geometry_msgs::Point32> perimeter_points{};
+
 	MainWindow();
 	~MainWindow();
 private:
