@@ -23,7 +23,8 @@ auto identity(T const x) -> T {return x;};
 
 static
 ros::Publisher perimeter_publisher;
-
+static
+ros::Subscriber extend_perimeter_subscriber;
 
 void extend_perimeter(geometry_msgs::PointStamped point) {
 	puts("extending perimeter");
@@ -45,11 +46,13 @@ int main(int argc, char *argv[]) {
 	try {
 		puts("init");
 		ros::init(argc, argv, "fotona_gui");
-		ros::NodeHandle n {};
-		n.subscribe("/clicked_point", 8, extend_perimeter);
-		perimeter_publisher = n.advertise<geometry_msgs::PolygonStamped>("/perimeter", 8, false);
+		ros::NodeHandle n = ros::NodeHandle("fotona_gui");
+		extend_perimeter_subscriber = n.subscribe("clicked_point", 8, extend_perimeter);
+		perimeter_publisher = n.advertise<geometry_msgs::PolygonStamped>("perimeter", 8, false);
 		QApplication a(argc, argv);
 		w = std::make_unique<MainWindow>();
+
+		std::thread ros_event_loop([]{ros::spin();});
 
 		puts("running");
 		return a.exec();

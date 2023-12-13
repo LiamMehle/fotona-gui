@@ -6,7 +6,7 @@ rviz
 )
 catkin_package()
 set(BIN_NAME "fotona_gui_node")
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++2a -Og -g -march=skylake -fsave-optimization-record --sanitize=address")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++2a -O0 -g -march=native -fsave-optimization-record --sanitize=address")
 include_directories(
   ${catkin_INCLUDE_DIRS}
   /usr/include/OGRE

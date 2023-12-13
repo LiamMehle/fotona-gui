@@ -93,7 +93,7 @@ MainWindow::MainWindow() :
 	pointcloud_display->setTopic("/pico_flexx/points", "sensor_msgs/PointCloud2");
 
 	visualization_manager->startUpdate();
-	perimeter_display->setTopic("/perimeter", "geometry_msgs/PolygonStamped");
+	perimeter_display->setTopic("perimeter", "PolygonStamped");
 
 	// set up mouse tool for picking point in cloud
 	auto tool_manager = this->visualization_manager->getToolManager();
