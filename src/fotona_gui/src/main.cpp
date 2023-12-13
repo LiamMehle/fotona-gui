@@ -46,8 +46,8 @@ int main(int argc, char *argv[]) {
 	try {
 		puts("init");
 		ros::init(argc, argv, "fotona_gui");
-		ros::NodeHandle n = ros::NodeHandle("fotona_gui");
-		extend_perimeter_subscriber = n.subscribe("clicked_point", 8, extend_perimeter);
+		ros::NodeHandle n; //= ros::NodeHandle("fotona_gui");
+		extend_perimeter_subscriber = n.subscribe("/clicked_point", 8, extend_perimeter);
 		perimeter_publisher = n.advertise<geometry_msgs::PolygonStamped>("perimeter", 8, false);
 		QApplication a(argc, argv);
 		w = std::make_unique<MainWindow>();
