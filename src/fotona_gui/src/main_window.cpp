@@ -62,13 +62,14 @@ MainWindow::MainWindow() :
 	layout->addWidget(this->status_text,  1, 1, 1, 1);
 	layout->addWidget(this->button_right, 1, 2, 1, 1);
 
-	this->transition(Stage::Position);
 
 	this->show();
 
 	auto const grid_display       = visualization_manager->createDisplay("rviz/Grid",        "grid",      true);
 	auto const pointcloud_display = visualization_manager->createDisplay("rviz/PointCloud2", "points",    true);
 	this->perimeter_display       = visualization_manager->createDisplay("rviz/Polygon",     "perimeter", false);
+	
+	this->transition(Stage::Position);
 
 	auto view_manager = visualization_manager->getViewManager();
 	if (view_manager == nullptr)
@@ -92,8 +93,7 @@ MainWindow::MainWindow() :
 	pointcloud_display->setTopic("/pico_flexx/points", "sensor_msgs/PointCloud2");
 
 	visualization_manager->startUpdate();
-
-	pointcloud_display->setTopic("/perimeter", "geometry_msgs/Polygon");
+	perimeter_display->setTopic("/perimeter", "geometry_msgs/PolygonStamped");
 
 	// set up mouse tool for picking point in cloud
 	auto tool_manager = this->visualization_manager->getToolManager();

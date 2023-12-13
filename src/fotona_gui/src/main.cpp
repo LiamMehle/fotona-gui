@@ -26,6 +26,7 @@ ros::Publisher perimeter_publisher;
 
 
 void extend_perimeter(geometry_msgs::PointStamped point) {
+	puts("extending perimeter");
 	// insert point into description of polygon
 	geometry_msgs::Point32 p;
 	p.x = static_cast<float>(point.point.x);
@@ -42,11 +43,11 @@ void extend_perimeter(geometry_msgs::PointStamped point) {
 
 int main(int argc, char *argv[]) {
 	try {
-		ros::NodeHandle n;
 		puts("init");
-		n.subscribe("/clicked_point", 8, extend_perimeter);
-		perimeter_publisher = n.advertise<geometry_msgs::PolygonStamped>("/perimeter");
 		ros::init(argc, argv, "fotona_gui");
+		ros::NodeHandle n {};
+		n.subscribe("/clicked_point", 8, extend_perimeter);
+		perimeter_publisher = n.advertise<geometry_msgs::PolygonStamped>("/perimeter", 8, false);
 		QApplication a(argc, argv);
 		w = std::make_unique<MainWindow>();
 
@@ -54,6 +55,8 @@ int main(int argc, char *argv[]) {
 		return a.exec();
 	} catch (ros::InvalidNodeNameException) {
 		std::printf("[err]: Please reinstall fotona_gui, it is likely broken beyond repair.");
+	} catch (ros::InvalidNameException) {
+		std::printf("[err]: failed to create /perimeter topic");
 	} catch (std::bad_alloc) {
 		std::printf("[err]: Failed to allocate enough memory.");
 	} catch (std::runtime_error e) {
