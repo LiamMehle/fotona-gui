@@ -54,7 +54,8 @@ MainWindow::MainWindow() :
 	this->visualization_manager = new rviz::VisualizationManager(render_panel);
 	visualization_manager->initialize();
 	render_panel->initialize(visualization_manager->getSceneManager(), visualization_manager);
-
+	visualization_manager->setFixedFrame("pico_flexx_optical_frame");
+	
 	this->setCentralWidget(central_widget);
 	central_widget->setLayout(layout);
 	layout->addWidget(render_panel, 0, 0, 1, 3);
@@ -80,13 +81,15 @@ MainWindow::MainWindow() :
 		throw std::runtime_error("failed to get reference to view controller");
 	view_controller->subProp("X")->setValue(0.f);                // center the view
 	view_controller->subProp("Y")->setValue(0.f);
+	view_controller->subProp("Scale")->setValue(40.f);
 
 	if (grid_display == nullptr)
 		puts("failed to create grid display");
 	if (pointcloud_display == nullptr)
 		throw std::runtime_error("Failed to create point cloud, something went terribly wrong");
 	pointcloud_display->initialize(visualization_manager);
-	pointcloud_display->subProp("Alpha")->setValue(0.f);
+	pointcloud_display->subProp("Alpha	")->setValue(0.5f);
+	pointcloud_display->subProp("Alpha")->setValue(0.5f);
 	pointcloud_display->subProp("Size (m)")->setValue(0.003f);
 	pointcloud_display->subProp("Color Transformer")->setValue("Intensity");
 	pointcloud_display->subProp("Channel Name")->setValue("intensity");
