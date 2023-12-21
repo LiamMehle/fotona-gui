@@ -5,7 +5,7 @@ from std_msgs.msg import Header, Time
 import numpy as np
 import math
 import time as t
-import torch
+# import torch
 
 def generate_pointcloud(seq: int, time: Time) -> PointCloud2:
     # x_dim       = 171
@@ -28,21 +28,29 @@ def generate_pointcloud(seq: int, time: Time) -> PointCloud2:
         PointField('gray',      18, 2, 1),  # uint8
     ]
     now = t.perf_counter() / 5
-    center = torch.tensor([math.sin(now), math.cos(now)]) / 2
+    center = np.array([math.sin(now), math.cos(now)]) / 2
     x_min, x_max = center[1]-1, center[1]+1
     y_min, y_max = center[0]-1, center[0]+1
 
-    data = torch.zeros((y_dim, x_dim, 3), dtype=torch.float32)
-    data[torch.arange(y_dim),:,0] = torch.linspace(y_min, y_max, x_dim, dtype=torch.float32).reshape((1, -1))
-    data[:,torch.arange(x_dim),1] = torch.linspace(x_min, x_max, y_dim, dtype=torch.float32).reshape((-1, 1))
-    data[:,:,2] = data[:,:,0] * data[:,:,1]
+    data = np.zeros((y_dim, x_dim, 3), dtype=np.float32)
+    x = np.linspace(y_min, y_max, x_dim, dtype=np.float32).reshape(1, -1)
+    y = np.linspace(x_min, x_max, y_dim, dtype=np.float32).reshape(-1, 1)
+    z = x * y
 
+    # data duplication and reformatting?
+    z_max = z.max()
+    z_min = z.min()
+    data[np.arange(y_dim),:,0] = x
+    data[:,np.arange(x_dim),1] = y
+    data[:,:,2] = z
+
+    # data packing into expected shape
     raw_data = np.zeros((y_dim, x_dim, point_step), dtype=np.byte)
-    intensity = (data[:,:,2] - data[:,:,2].min()) / (data[:,:,2].max() - data[:,:,2].min()) * (2**16-1)
+    intensity = (z - z_min) / (z_max - z_min) * (2**16-1)
     xyz_range       = np.arange(0,  12)
     intensity_range = np.arange(16, 18)
-    raw_data[:,:,xyz_range]       = np.frombuffer(data.numpy().tobytes()        , dtype=np.byte).reshape((y_dim, x_dim, -1))
-    raw_data[:,:,intensity_range] = np.frombuffer(intensity.short().numpy().tobytes(), dtype=np.byte).reshape((y_dim, x_dim, -1))
+    raw_data[:,:,xyz_range]       = np.frombuffer(data.tobytes(),              dtype=np.byte).reshape((y_dim, x_dim, -1))
+    raw_data[:,:,intensity_range] = np.frombuffer(intensity.astype(np.int16).tobytes(), dtype=np.byte).reshape((y_dim, x_dim, -1))
     cloud              = PointCloud2()
     # fake the data as observed
     cloud.header       = header
