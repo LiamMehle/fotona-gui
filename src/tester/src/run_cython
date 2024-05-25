@@ -1,0 +1,5 @@
+#!/bin/sh
+python3 setup.py build_ext --inplace
+python3 -c '
+import main2
+main2.talker()'

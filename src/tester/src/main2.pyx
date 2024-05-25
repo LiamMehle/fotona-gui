@@ -1,18 +1,21 @@
-#!/usr/bin/python3
+#cython: language_level=3
 import rospy
+from cython import parallel
 from sensor_msgs.msg import PointCloud2, PointField
 from std_msgs.msg import Header, Time
 import numpy as np
-import math
+cimport numpy as cnp
 import time as t
+import cython
 # import torch
 
+@cython.cdivision(True)
 def generate_pointcloud(seq: int, time: Time) -> PointCloud2:
     # x_dim       = 171
     # y_dim       = 224
-    x_dim       = 2000
-    y_dim       = x_dim
-    point_step  = (4*(32) + 16 + 8 )//8
+    cdef int x_dim      = 800
+    cdef int y_dim      = x_dim
+    cdef int point_step = (4*(32) + 16 + 8 )//8
     
     header          = Header()
     header.seq      = seq
@@ -28,25 +31,37 @@ def generate_pointcloud(seq: int, time: Time) -> PointCloud2:
         PointField('gray',      18, 2, 1),  # uint8
     ]
     now = t.perf_counter() / 5
-    center = np.array([math.sin(now), math.cos(now)]) / 2
-    x_min, x_max = center[1]-1, center[1]+1
-    y_min, y_max = center[0]-1, center[0]+1
+    center = np.array([np.sin(now), np.cos(now)]) / 2
+    cdef float x_min = center[1]-1, x_max = center[1]+1
+    cdef float y_min = center[0]-1, y_max = center[0]+1
 
-    data = np.zeros((y_dim, x_dim, 3), dtype=np.float32)
-    x = np.linspace(y_min, y_max, x_dim, dtype=np.float32).reshape(1, -1)
-    y = np.linspace(x_min, x_max, y_dim, dtype=np.float32).reshape(-1, 1)
-    z = x * y
+    cdef cnp.ndarray[float, ndim=3] data = np.zeros((y_dim, x_dim, 3), dtype=np.float32)
+    cdef float xp, yp
+    cdef int x, y
+    for y in parallel.prange(y_dim, nogil=True, schedule='static', num_threads=4):
+        for x in range(x_dim):
+            xp = x
+            yp = y
+            xp = (xp/x_dim)*(x_max-x_min)+x_min
+            yp = (yp/y_dim)*(y_max-y_min)+y_min
+            data[y, x, 0] = xp
+            data[y, x, 1] = yp
+            data[y, x, 2] = 0 #xp * yp
+
+#   cdef cnp.ndarray[float, ndim=2] x = np.linspace(y_min, y_max, x_dim, dtype=np.float32).reshape(1, -1)
+#   cdef cnp.ndarray[float, ndim=2] y = np.linspace(x_min, x_max, y_dim, dtype=np.float32).reshape(-1, 1)
+#   cdef cnp.ndarray[float, ndim=2] z = x * y
 
     # data duplication and reformatting?
-    z_max = z.max()
-    z_min = z.min()
-    data[np.arange(y_dim),:,0] = x
-    data[:,np.arange(x_dim),1] = y
-    data[:,:,2] = z
+    z_max = data[:,:,2].max()
+    z_min = data[:,:,2].min()
+#   data[np.arange(y_dim),:,0] = x
+#   data[:,np.arange(x_dim),1] = y
+#   data[:,:,2] = z
 
     # data packing into expected shape
     raw_data = np.zeros((y_dim, x_dim, point_step), dtype=np.byte)
-    intensity = (z - z_min) / (z_max - z_min) * (2**16-1)
+    intensity = (data[:,:,2] - z_min) / (z_max - z_min) * (2**16-1)
     xyz_range       = np.arange(0,  12)
     intensity_range = np.arange(16, 18)
     raw_data[:,:,xyz_range]       = np.frombuffer(data.tobytes(),              dtype=np.byte).reshape((y_dim, x_dim, -1))
@@ -64,7 +79,7 @@ def generate_pointcloud(seq: int, time: Time) -> PointCloud2:
     
     return cloud
 
-def test_callback(message: PointCloud2) -> None:
+cdef test_callback(message: PointCloud2):
     print('got a callback')
 
 def talker():
